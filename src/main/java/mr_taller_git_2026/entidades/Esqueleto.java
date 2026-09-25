@@ -12,6 +12,11 @@ public class Esqueleto extends Entidad {
         this.usaArco = usaArco;
     }
 
+    @Override
+    public String describirComportamiento() {
+        return usaArco ? "Ataca al jugador con un arco." : "Ataca al jugador cuerpo a cuerpo.";
+    }
+
     public boolean isUsaArco() {
         return usaArco;
     }

@@ -12,6 +12,11 @@ public class Aldeano extends Entidad {
         this.comercializacion = comercializacion;
     }
 
+    @Override
+    public String describirComportamiento() {
+        return comercializacion ? "Comercia con el jugador." : "No comercia con el jugador.";
+    }
+
     public boolean isComercializacion() {
         return comercializacion;
     }

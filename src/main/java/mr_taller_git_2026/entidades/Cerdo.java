@@ -14,6 +14,11 @@ public class Cerdo extends Entidad {
         this.montable = montable;
     }
 
+    @Override
+    public String describirComportamiento() {
+        return montable ? "Puede ser montado." : "No puede ser montado.";
+    }
+
     public boolean isHostilidad() {
         return hostilidad;
     }

@@ -8,4 +8,9 @@ public class Player extends Entidad {
     public Player(int vida, int danoBase, int velocidad) {
         super(vida, danoBase, velocidad);
     }
+
+    @Override
+    public String describirComportamiento() {
+        return "Explora el mundo y combate a las entidades.";
+    }
 }

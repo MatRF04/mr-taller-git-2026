@@ -12,6 +12,11 @@ public class Zombie extends Entidad {
         this.hostilidad = hostilidad;
     }
 
+    @Override
+    public String describirComportamiento() {
+        return hostilidad ? "Persigue y ataca al jugador." : "Deambula sin atacar al jugador.";
+    }
+
     public boolean isHostilidad() {
         return hostilidad;
     }

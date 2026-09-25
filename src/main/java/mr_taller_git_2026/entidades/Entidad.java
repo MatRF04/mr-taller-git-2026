@@ -14,6 +14,8 @@ public abstract class Entidad {
         this.velocidad = velocidad;
     }
 
+    public abstract String describirComportamiento();
+
     public int getVida() {
         return vida;
     }
