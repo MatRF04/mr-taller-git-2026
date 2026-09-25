@@ -8,6 +8,6 @@ public class IndexController {
 
     @GetMapping("/")
     public String index() {
-        return "hola amigo";
+        return "API de Minecraft de Mateo. Servicio funcionando.";
     }
 }
