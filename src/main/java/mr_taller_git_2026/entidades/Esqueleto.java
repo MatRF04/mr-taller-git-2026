@@ -20,8 +20,4 @@ public class Esqueleto extends Entidad {
     public boolean isUsaArco() {
         return usaArco;
     }
-
-    public void setUsaArco(boolean usaArco) {
-        this.usaArco = usaArco;
-    }
 }

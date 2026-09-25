@@ -23,15 +23,7 @@ public class Cerdo extends Entidad {
         return hostilidad;
     }
 
-    public void setHostilidad(boolean hostilidad) {
-        this.hostilidad = hostilidad;
-    }
-
     public boolean isMontable() {
         return montable;
-    }
-
-    public void setMontable(boolean montable) {
-        this.montable = montable;
     }
 }

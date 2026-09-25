@@ -20,8 +20,4 @@ public class Aldeano extends Entidad {
     public boolean isComercializacion() {
         return comercializacion;
     }
-
-    public void setComercializacion(boolean comercializacion) {
-        this.comercializacion = comercializacion;
-    }
 }

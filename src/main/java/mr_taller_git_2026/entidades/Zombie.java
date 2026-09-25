@@ -20,8 +20,4 @@ public class Zombie extends Entidad {
     public boolean isHostilidad() {
         return hostilidad;
     }
-
-    public void setHostilidad(boolean hostilidad) {
-        this.hostilidad = hostilidad;
-    }
 }
