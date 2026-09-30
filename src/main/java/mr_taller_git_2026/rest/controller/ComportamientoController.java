@@ -1,12 +1,12 @@
-package mr_taller_git_2026.controllers;
+package mr_taller_git_2026.rest.controller;
 
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import mr_taller_git_2026.entidades.Aldeano;
-import mr_taller_git_2026.entidades.Entidad;
-import mr_taller_git_2026.entidades.Zombie;
+import mr_taller_git_2026.domain.Aldeano;
+import mr_taller_git_2026.domain.Entidad;
+import mr_taller_git_2026.domain.Zombie;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 

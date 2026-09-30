@@ -1,6 +1,6 @@
-package mr_taller_git_2026.controllers;
+package mr_taller_git_2026.rest.controller;
 
-import mr_taller_git_2026.entidades.Zombie;
+import mr_taller_git_2026.domain.Zombie;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;

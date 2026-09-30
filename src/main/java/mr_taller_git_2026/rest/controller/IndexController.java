@@ -1,4 +1,4 @@
-package mr_taller_git_2026.controllers;
+package mr_taller_git_2026.rest.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

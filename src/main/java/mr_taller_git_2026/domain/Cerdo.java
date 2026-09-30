@@ -1,4 +1,4 @@
-package mr_taller_git_2026.entidades;
+package mr_taller_git_2026.domain;
 
 public class Cerdo extends Entidad {
     private boolean hostilidad;
