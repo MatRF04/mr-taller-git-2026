@@ -16,6 +16,7 @@
    el controller, actualizacion del README y creacion de esta bitacora.
 3. Pedi como construir las dos hijas desde la URL (punto 5) y que lo implementara, con
    tests y la documentacion actualizada.
+4. Pedi reescribir `ENTREGA_CLASSROOM.md` para este ejercicio e incluir el hash del commit.
 
 ### Que hizo la IA
 
@@ -30,6 +31,7 @@
   los endpoints.
 - Agrego `ComportamientoControllerTests` (2 pruebas).
 - Agrego `EntidadControllerTests` (3 pruebas) y ejecuto todas (6 en total) con `./mvnw test`.
+- Reescribio `ENTREGA_CLASSROOM.md` (objetivo, consignas, como probar, pregunta de anclaje).
 - Actualizo el README (endpoints, apartado de sobrecarga/sobreescritura, diagrama).
 
 ### Que revise / decidi yo
