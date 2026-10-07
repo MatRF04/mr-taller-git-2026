@@ -89,7 +89,7 @@ Se incorporaron las siguientes reglas en los constructores:
 - `velocidadAumentada`, en `ZombiePequeño`, no puede ser negativa.
 - El constructor sin parámetros de `Entidad` establece valores válidos: vida 1, daño 0 y velocidad 0.
 
-Los valores inválidos provocan una `IllegalArgumentException`. Actualmente no se implementó un tratamiento HTTP específico para esa excepción; el rechazo del dominio no debe confundirse con una respuesta HTTP 400 personalizada.
+Los valores inválidos provocan una `IllegalArgumentException`, que `ErrorController` (`@RestControllerAdvice`) traduce a una respuesta HTTP 400 con el mensaje del dominio.
 
 El estado queda protegido porque no se puede asignar libremente desde los controllers. El padre declara el contrato común, pero cada hija define su comportamiento particular. Así, la entrada HTTP queda separada de las reglas del modelo.
 
@@ -150,7 +150,7 @@ http://localhost:8080/entidades/zombie?vida=20&danoBase=5&velocidad=3&hostilidad
 ### 3. Comportamientos polimórficos
 
 ```text
-http://localhost:8080/entidades/comportamientos
+http://localhost:8080/entidades/comportamientos?vida=20&danoBase=5&velocidad=3&hostilidad=true&comercializacion=true
 ```
 
 **Resultado esperado:**
@@ -159,10 +159,12 @@ http://localhost:8080/entidades/comportamientos
 [
   {
     "tipo": "Zombie",
+    "vida": 20,
     "comportamiento": "Persigue y ataca al jugador."
   },
   {
     "tipo": "Aldeano",
+    "vida": 20,
     "comportamiento": "Comercia con el jugador."
   }
 ]
@@ -174,7 +176,7 @@ http://localhost:8080/entidades/comportamientos
 http://localhost:8080/entidades/zombie?vida=-1&danoBase=5&velocidad=3&hostilidad=true
 ```
 
-**Resultado esperado:** la construcción se rechaza; no se devuelve un zombie válido. Repetir con `vida=0`, daño negativo o velocidad negativa. Sin un manejador HTTP específico, la excepción puede presentarse como un error 500.
+**Resultado esperado:** respuesta `400 Bad Request` con `{"error": "La vida debe ser mayor que cero"}`. Repetir con `vida=0`, daño negativo o velocidad negativa.
 
 ## Criterios de aceptación y cierre
 

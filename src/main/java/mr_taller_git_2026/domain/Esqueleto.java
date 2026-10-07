@@ -17,6 +17,18 @@ public class Esqueleto extends Entidad {
         return usaArco ? "Ataca al jugador con un arco." : "Ataca al jugador cuerpo a cuerpo.";
     }
 
+    public String disparar() {
+        return usaArco ? "Dispara una flecha al jugador." : "No tiene arco: no puede disparar.";
+    }
+
+    public String disparar(int distancia) {
+        validarNoNegativo(distancia, "distancia");
+        if (!usaArco) {
+            return "No tiene arco: no puede disparar a " + distancia + " bloques.";
+        }
+        return "Dispara una flecha al jugador a " + distancia + " bloques.";
+    }
+
     public boolean isUsaArco() {
         return usaArco;
     }

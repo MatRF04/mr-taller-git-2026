@@ -1,6 +1,5 @@
 package mr_taller_git_2026.rest.controller;
 
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,24 +7,28 @@ import mr_taller_git_2026.domain.Aldeano;
 import mr_taller_git_2026.domain.Entidad;
 import mr_taller_git_2026.domain.Zombie;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class ComportamientoController {
 
     @GetMapping("/entidades/comportamientos")
-    public List<Map<String, String>> comportamientos() {
+    public List<Map<String, Object>> comportamientos(
+            @RequestParam int vida,
+            @RequestParam int danoBase,
+            @RequestParam int velocidad,
+            @RequestParam boolean hostilidad,
+            @RequestParam boolean comercializacion) {
         List<Entidad> entidades = List.of(
-                new Zombie(20, 5, 3, true),
-                new Aldeano(20, 0, 2, true));
+                new Zombie(vida, danoBase, velocidad, hostilidad),
+                new Aldeano(vida, danoBase, velocidad, comercializacion));
 
         return entidades.stream()
-                .map(entidad -> {
-                    Map<String, String> respuesta = new LinkedHashMap<>();
-                    respuesta.put("tipo", entidad.getClass().getSimpleName());
-                    respuesta.put("comportamiento", entidad.describirComportamiento());
-                    return respuesta;
-                })
+                .map(entidad -> Map.<String, Object>of(
+                        "tipo", entidad.getClass().getSimpleName(),
+                        "vida", entidad.getVida(),
+                        "comportamiento", entidad.describirComportamiento()))
                 .toList();
     }
 }

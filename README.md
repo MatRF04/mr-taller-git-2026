@@ -29,14 +29,31 @@ GET /entidades/zombie?vida=20&danoBase=5&velocidad=3&hostilidad=true
 Construye un `Zombie` usando los parametros recibidos por URL y devuelve sus datos en JSON.
 Los valores se validan en las entidades del dominio.
 
+### Disparo del esqueleto (sobrecarga)
+
+```text
+GET /entidades/esqueleto/disparar?vida=20&danoBase=3&velocidad=2&usaArco=true
+GET /entidades/esqueleto/disparar?vida=20&danoBase=3&velocidad=2&usaArco=true&distancia=10
+```
+
+Sin `distancia` se invoca `disparar()`; con `distancia` se invoca `disparar(int)`.
+
+### Errores de validacion
+
+Si un valor viola una regla del dominio (por ejemplo `vida=0`), la entidad lanza
+`IllegalArgumentException` y el controller responde `400 Bad Request` con
+`{"error": "<mensaje>"}`.
+
 ### Comportamientos
 
 ```text
-GET /entidades/comportamientos
+GET /entidades/comportamientos?vida=20&danoBase=5&velocidad=3&hostilidad=true&comercializacion=false
 ```
 
-Devuelve en JSON el comportamiento de un `Zombie` y un `Aldeano`. El controller los maneja
-como objetos de tipo `Entidad` y cada clase implementa su propio comportamiento.
+Construye un `Zombie` y un `Aldeano` con los parametros de la URL y devuelve en JSON el
+comportamiento de cada uno. El controller los guarda en una `List<Entidad>` y llama a
+`describirComportamiento()` sin distinguir el tipo concreto; cada clase responde a su manera.
+Un valor invalido devuelve `400` (ver "Errores de validacion").
 
 ## Entidades y comportamientos
 
@@ -53,6 +70,20 @@ como objetos de tipo `Entidad` y cada clase implementa su propio comportamiento.
 
 El estado de las entidades permanece encapsulado: los atributos son privados, no existen
 setters publicos y los constructores rechazan valores invalidos.
+
+## Sobrecarga y sobreescritura
+
+**Sobreescritura (override)**: `Entidad` declara `describirComportamiento()` como abstracto y
+`Player`, `Zombie`, `Cerdo`, `Aldeano` y `Esqueleto` lo reimplementan con `@Override`, con la
+misma firma. Java elige la version segun la clase real del objeto, en tiempo de ejecucion.
+
+**Sobrecarga (overload)**: `Esqueleto` define dos metodos llamados `disparar` con distinta lista
+de argumentos: `disparar()` y `disparar(int distancia)`. El compilador elige la version segun
+los argumentos de la llamada. La segunda valida que la distancia no sea negativa.
+Los constructores de cada clase tambien estan sobrecargados (sin parametros y con parametros).
+
+**Como distinguirlas**: la sobreescritura mantiene la firma y cambia la clase (padre -> hija);
+la sobrecarga mantiene el nombre y cambia los parametros dentro de la misma clase.
 
 ## Diagrama de clases
 
@@ -96,6 +127,8 @@ classDiagram
     class Esqueleto {
         -boolean usaArco
         +boolean isUsaArco()
+        +String disparar()
+        +String disparar(int distancia)
         +String describirComportamiento()
     }
 
