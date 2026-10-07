@@ -5,7 +5,8 @@
 **Estudiante:** Mateo  
 **Usuario de GitHub:** MatRF04  
 **Dominio:** Minecraft  
-**Repositorio:** [MatRF04/mr-taller-git-2026](https://github.com/MatRF04/mr-taller-git-2026)
+**Repositorio:** [MatRF04/mr-taller-git-2026](https://github.com/MatRF04/mr-taller-git-2026)  
+**Commit de la solución:** [62fd703e97e119d2faa4ac5b1e5cfd64e4a25c0c](https://github.com/MatRF04/mr-taller-git-2026/commit/62fd703e97e119d2faa4ac5b1e5cfd64e4a25c0c)
 
 ## Objetivo
 
