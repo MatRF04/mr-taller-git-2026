@@ -45,15 +45,15 @@ cd mr-taller-git-2026
 
 En Windows usar `mvnw.cmd`. Con el servicio iniciado:
 
-| # | URL | Resultado esperado |
-|---|---|---|
-| 1 | `http://localhost:8080/` | `API de Minecraft de Mateo. Servicio funcionando.` |
-| 2 | `http://localhost:8080/entidades/zombie?vida=20&danoBase=5&velocidad=3&hostilidad=true` | JSON con `vida`, `danoBase`, `velocidad` y `hostilidad` |
-| 3 | `http://localhost:8080/entidades/comportamientos?vida=20&danoBase=5&velocidad=3&hostilidad=true&comercializacion=false` | Dos objetos: Zombie "Persigue y ataca al jugador." y Aldeano "No comercia con el jugador." |
-| 4 | `http://localhost:8080/entidades/esqueleto/disparar?vida=20&danoBase=3&velocidad=2&usaArco=true` | `{"accion":"Dispara una flecha al jugador."}` |
-| 5 | `http://localhost:8080/entidades/esqueleto/disparar?vida=20&danoBase=3&velocidad=2&usaArco=true&distancia=10` | `{"accion":"Dispara una flecha al jugador a 10 bloques."}` |
-| 6 | `http://localhost:8080/entidades/zombie?vida=0&danoBase=5&velocidad=3&hostilidad=true` | `400` con `{"error":"La vida debe ser mayor que cero"}` |
-| 7 | `http://localhost:8080/entidades/esqueleto/disparar?vida=20&danoBase=3&velocidad=2&usaArco=true&distancia=-4` | `400` con `{"error":"distancia no puede ser negativo"}` |
+| #   | URL                                                                                                                     | Resultado esperado                                                                         |
+| --- | ----------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| 1   | `http://localhost:8080/`                                                                                                | `API de Minecraft de Mateo. Servicio funcionando.`                                         |
+| 2   | `http://localhost:8080/entidades/zombie?vida=20&danoBase=5&velocidad=3&hostilidad=true`                                 | JSON con `vida`, `danoBase`, `velocidad` y `hostilidad`                                    |
+| 3   | `http://localhost:8080/entidades/comportamientos?vida=20&danoBase=5&velocidad=3&hostilidad=true&comercializacion=false` | Dos objetos: Zombie "Persigue y ataca al jugador." y Aldeano "No comercia con el jugador." |
+| 4   | `http://localhost:8080/entidades/esqueleto/disparar?vida=20&danoBase=3&velocidad=2&usaArco=true`                        | `{"accion":"Dispara una flecha al jugador."}`                                              |
+| 5   | `http://localhost:8080/entidades/esqueleto/disparar?vida=20&danoBase=3&velocidad=2&usaArco=true&distancia=10`           | `{"accion":"Dispara una flecha al jugador a 10 bloques."}`                                 |
+| 6   | `http://localhost:8080/entidades/zombie?vida=0&danoBase=5&velocidad=3&hostilidad=true`                                  | `400` con `{"error":"La vida debe ser mayor que cero"}`                                    |
+| 7   | `http://localhost:8080/entidades/esqueleto/disparar?vida=20&danoBase=3&velocidad=2&usaArco=true&distancia=-4`           | `400` con `{"error":"distancia no puede ser negativo"}`                                    |
 
 `./mvnw test` ejecuta 6 pruebas automatizadas (contexto, errores 400, sobrecarga y comportamientos).
 
@@ -61,11 +61,3 @@ En Windows usar `mvnw.cmd`. Con el servicio iniciado:
 
 **¿Qué ocurre si el controller asigna a mano la vida o la munición?**  
 No puede hacerlo: los atributos de `Entidad` son privados y no existen setters públicos. El único camino para fijar un valor es el constructor, que lo valida y lanza `IllegalArgumentException` si viola una regla. El controller solo informa el resultado (400); no corrige ni modifica el estado. Así ninguna otra clase o capa puede dejar el objeto en un estado imposible.
-
-## Entregables
-
-- [x] Enlace exacto al commit de la solución (arriba).
-- [x] README actualizado (licencia Apache 2.0, diagrama Mermaid, sobrecarga y sobreescritura).
-- [x] `BITACORA.md` con el uso de IA.
-- [x] Este archivo para Classroom.
-- [ ] Usuario de GitHub (`MatRF04`) publicado en el chat del curso.

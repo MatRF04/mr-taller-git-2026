@@ -66,7 +66,7 @@ Un valor invalido devuelve `400` (ver "Errores de validacion").
 - `Aldeano`: comercia con el jugador si tiene comercializacion habilitada.
 - `Cerdo`: puede ser montado si tiene esa capacidad habilitada.
 - `Esqueleto`: ataca con arco o cuerpo a cuerpo segun su configuracion.
-- `ZombiePequeno`: hereda el comportamiento del `Zombie` y agrega una velocidad aumentada.
+- `ZombiePequeño`: hereda el comportamiento del `Zombie` y agrega una velocidad aumentada.
 
 El estado de las entidades permanece encapsulado: los atributos son privados, no existen
 setters publicos y los constructores rechazan valores invalidos.
@@ -94,18 +94,24 @@ classDiagram
         -int vida
         -int danoBase
         -int velocidad
+        #Entidad()
+        #Entidad(int vida, int danoBase, int velocidad)
         +int getVida()
         +int getDanoBase()
         +int getVelocidad()
-        +String describirComportamiento()
+        +String describirComportamiento()*
     }
 
     class Player {
+        +Player()
+        +Player(int vida, int danoBase, int velocidad)
         +String describirComportamiento()
     }
 
     class Zombie {
         -boolean hostilidad
+        +Zombie()
+        +Zombie(int vida, int danoBase, int velocidad, boolean hostilidad)
         +boolean isHostilidad()
         +String describirComportamiento()
     }
@@ -113,6 +119,8 @@ classDiagram
     class Cerdo {
         -boolean hostilidad
         -boolean montable
+        +Cerdo()
+        +Cerdo(int vida, int danoBase, int velocidad, boolean hostilidad, boolean montable)
         +boolean isHostilidad()
         +boolean isMontable()
         +String describirComportamiento()
@@ -120,20 +128,26 @@ classDiagram
 
     class Aldeano {
         -boolean comercializacion
+        +Aldeano()
+        +Aldeano(int vida, int danoBase, int velocidad, boolean comercializacion)
         +boolean isComercializacion()
         +String describirComportamiento()
     }
 
     class Esqueleto {
         -boolean usaArco
+        +Esqueleto()
+        +Esqueleto(int vida, int danoBase, int velocidad, boolean usaArco)
         +boolean isUsaArco()
         +String disparar()
         +String disparar(int distancia)
         +String describirComportamiento()
     }
 
-    class ZombiePequeno {
+    class ZombiePequeño {
         -int velocidadAumentada
+        +ZombiePequeño()
+        +ZombiePequeño(int vida, int danoBase, int velocidad, boolean hostilidad, int velocidadAumentada)
         +int getVelocidadAumentada()
     }
 
@@ -142,5 +156,5 @@ classDiagram
     Entidad <|-- Cerdo
     Entidad <|-- Aldeano
     Entidad <|-- Esqueleto
-    Zombie <|-- ZombiePequeno
+    Zombie <|-- ZombiePequeño
 ```
