@@ -1,5 +1,6 @@
 package mr_taller_git_2026.domain;
 
+@jakarta.persistence.Entity
 public class Zombie extends Entidad {
     private boolean hostilidad;
 
@@ -19,5 +20,9 @@ public class Zombie extends Entidad {
 
     public boolean isHostilidad() {
         return hostilidad;
+    }
+
+    public void setHostilidad(boolean hostilidad) {
+        this.hostilidad = hostilidad;
     }
 }

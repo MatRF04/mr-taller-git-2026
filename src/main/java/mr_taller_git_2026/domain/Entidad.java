@@ -1,6 +1,34 @@
 package mr_taller_git_2026.domain;
 
+@jakarta.persistence.Entity
+@jakarta.persistence.Inheritance(strategy = jakarta.persistence.InheritanceType.SINGLE_TABLE)
 public abstract class Entidad {
+    @jakarta.persistence.Id
+    @jakarta.persistence.GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
+    private Long id;
+
+    public Long getId() {
+        return id;
+    }
+
+    public boolean estaViva() {
+        return vida > 0;
+    }
+
+    public void recibirDano(int cantidad) {
+        validarNoNegativo(cantidad, "cantidad");
+        vida = Math.max(0, vida - cantidad);
+    }
+
+    public void actualizarAtributos(int vida, int danoBase, int velocidad) {
+        validarVida(vida);
+        validarNoNegativo(danoBase, "danoBase");
+        validarNoNegativo(velocidad, "velocidad");
+        this.vida = vida;
+        this.danoBase = danoBase;
+        this.velocidad = velocidad;
+    }
+
     private int vida;
     private int danoBase;
     private int velocidad;

@@ -1,5 +1,6 @@
 package mr_taller_git_2026.domain;
 
+@jakarta.persistence.Entity
 public class Player extends Entidad {
     public Player() {
         super();
