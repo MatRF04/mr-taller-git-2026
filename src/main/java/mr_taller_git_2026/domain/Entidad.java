@@ -1,5 +1,21 @@
 package mr_taller_git_2026.domain;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
+// Jackson agrega "tipo" al serializar para que el cliente distinga el subtipo.
+// La entrada se recibe con EntidadRequest: nunca se deserializa Entidad directo,
+// porque Jackson asignaria los campos privados sin pasar por los constructores.
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "tipo")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = Creeper.class, name = "Creeper"),
+        @JsonSubTypes.Type(value = Player.class, name = "Player"),
+        @JsonSubTypes.Type(value = Zombie.class, name = "Zombie"),
+        @JsonSubTypes.Type(value = ZombiePequeño.class, name = "ZombiePequeno"),
+        @JsonSubTypes.Type(value = Esqueleto.class, name = "Esqueleto"),
+        @JsonSubTypes.Type(value = Aldeano.class, name = "Aldeano"),
+        @JsonSubTypes.Type(value = Cerdo.class, name = "Cerdo")
+})
 @jakarta.persistence.Entity
 @jakarta.persistence.Inheritance(strategy = jakarta.persistence.InheritanceType.SINGLE_TABLE)
 public abstract class Entidad {
