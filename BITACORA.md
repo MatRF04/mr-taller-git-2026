@@ -6,7 +6,19 @@
 
 ## Ejercicio POO-08 — CRUD REST, H2, reglas de juego y excepciones
 
-### Primera parte: explosiones (2026-10-29)
+### CRUD REST y H2
+
+- **Asistente:** Codex (OpenAI)
+- **Modelo:** GPT-6 Astra
+- **Resumen de prompts:**
+  - Pedi un CRUD REST para Entidad con arquitectura de tres capas, un service con
+    validaciones y persistencia en H2 con Spring Data.
+  - Pedi un comando curl para probar cada operacion del CRUD.
+  - Consulte la configuracion de H2 en application.properties y el acceso a la consola.
+- **Que hizo la IA:** EntidadController, EntidadService, EntidadRepository, EntidadRequest,
+  el mapeo JPA de Entidad y sus hijas, y la configuracion de H2.
+
+### Explosiones (2026-10-29)
 
 - **Asistente:** OpenCode
 - **Modelo:** GPT-6 Astra (OpenAI)
@@ -17,7 +29,7 @@
 - La simulacion usa dano fijo de 10 hasta 3 bloques y distancias proporcionadas por el
   cliente; no implementa la formula exacta de Minecraft.
 
-### Segunda parte: revision contra el enunciado y la rubrica (2026-11-09)
+### Revision contra el enunciado y la rubrica (2026-11-09)
 
 - **Asistente:** Claude Code (Anthropic)
 - **Modelo:** Claude Opus 5.5 (`claude-opus-5-5`)
@@ -39,11 +51,29 @@
 - Completo la coleccion de Insomnia (GET /, POST/PUT ilegales, 404 de GET y DELETE,
   protocolo, GET posterior al DELETE) y la recorrio contra el servicio.
 - Reescribio el README (propiedades H2, Insomnia, respuestas a "Que hay que pensar",
-  diagramas) y `ENTREGA_CLASSROOM.md`.
+  diagramas) y escribio `ENTREGA_POO-08.md`.
 
-#### Que revise / decidi yo
+### Que revise / decidi yo
 
-- <!-- TODO Mateo: completar con lo que revisaste o decidiste vos en esta entrega. -->
+- Elegi la regla de la simulacion: la explosion del creeper, que muere al explotar y
+  dana a las entidades cercanas.
+- Los detalles de la implementacion los propuso la IA y los acepte: el dano fijo de 10,
+  el radio de 3 bloques, que solo afecte a Player y Zombie, que la distancia la informe
+  el cliente, y que se validen todos los objetivos antes de aplicar dano.
+- Decidi terminar POO-08 primero y dejar las correcciones de POO-06 para el final.
+
+## Ejercicio POO-07 — Protocolo Sonoro / UICapable
+
+- **Asistente:** OpenCode
+- **Modelo:** GPT-6 Astra (OpenAI)
+- **Resumen de prompts:** no conserve los prompts originales; de memoria, le pedi a
+  OpenCode crear una interfaz para que el Cerdo y un bloque musical emitan sonido,
+  un endpoint que los liste a traves de la interfaz, y despues ampliarla con imagen,
+  posicion y velocidad para la UI.
+- **Que decidi yo:** elegi el protocolo Sonoro con el Cerdo (Entidad) y el bloque
+  musical (Bloque), dos familias distintas que emiten sonido.
+- **Que hizo la IA:** implemento las interfaces Sonoro y UICapable, las clases Bloque y
+  BloqueMusical, los endpoints /sonidos y /ui y sus pruebas.
 
 ## Ejercicio POO-06 — Revision, paquetes, constructores y sobrecarga
 
