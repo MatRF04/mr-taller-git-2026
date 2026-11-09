@@ -550,3 +550,7 @@ parametros de las hijas son publicos porque POO-06 los pedia y dejan un objeto l
   y CRUD de Creeper.
 - `SonidoControllerTests` y `UIControllerTests`: el protocolo responde sobre ambas familias.
 - `EntidadControllerTests` y `ComportamientoControllerTests`: endpoints de POO-06.
+
+## Licencia
+
+Este proyecto se distribuye bajo la licencia Apache 2.0. Ver [LICENSE](LICENSE).
