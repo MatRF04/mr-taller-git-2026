@@ -232,7 +232,7 @@ Un valor invalido (por ejemplo `vida=0`) devuelve `400` con `{"error": "<mensaje
 - `Aldeano`: comercia con el jugador si tiene comercializacion habilitada.
 - `Cerdo`: puede ser montado si tiene esa capacidad habilitada.
 - `Esqueleto`: ataca con arco o cuerpo a cuerpo segun su configuracion.
-- `ZombiePequeno`: hereda el comportamiento del `Zombie` y agrega una velocidad aumentada.
+- `ZombiePequeño`: hereda el comportamiento del `Zombie` y agrega una velocidad aumentada.
 
 ## Sobrecarga y sobreescritura
 
@@ -298,7 +298,7 @@ classDiagram
         +String describirComportamiento()
     }
 
-    class ZombiePequeno {
+    class ZombiePequeno["ZombiePequeño"] {
         -int velocidadAumentada
         +ZombiePequeño()
         +ZombiePequeño(int vida, int danoBase, int velocidad, boolean hostilidad, int velocidadAumentada)
