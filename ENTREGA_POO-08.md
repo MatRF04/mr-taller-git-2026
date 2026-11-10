@@ -59,7 +59,7 @@ cd mr-taller-git-2026
 ./mvnw spring-boot:run
 ```
 
-1. En Insomnia: **Import → From File → `insomnia/minecraft.json`**.
+1. En Insomnia: **Import → From File → `insomnia/Minecraft.yaml`**.
 2. Ejecutar los pedidos en orden numérico. En `01`–`04` copiar el `id` de cada respuesta a
    `creeper_id`, `player_id`, `zombie_id` y `otro_creeper_id` del entorno.
 

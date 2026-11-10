@@ -41,9 +41,9 @@ tiene `VIDA = 0` y `YA_EXPLOTO = TRUE`, y las vidas de los objetivos reflejan el
 
 ## Coleccion de Insomnia
 
-La coleccion esta en `insomnia/minecraft.json`.
+La coleccion esta en `insomnia/Minecraft.yaml`.
 
-1. En Insomnia: **Import** -> **From File** -> elegir `insomnia/minecraft.json`.
+1. En Insomnia: **Import** -> **From File** -> elegir `insomnia/Minecraft.yaml`.
 2. Abrir el entorno **Base Environment**: `base_url` apunta a `http://localhost:8080`.
 3. Arrancar el servicio y ejecutar los pedidos **en orden numerico**:
    - `00`: servicio vivo.
