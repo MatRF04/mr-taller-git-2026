@@ -6,7 +6,7 @@
 **Usuario de GitHub:** MatRF04  
 **Dominio:** Minecraft  
 **Repositorio:** [MatRF04/mr-taller-git-2026](https://github.com/MatRF04/mr-taller-git-2026)  
-**Commit de la solución:** COMMIT_PENDIENTE
+**Commit de la solución:** [2d184b40d32d942c3a0c3a7eafc27f20c1e66087](https://github.com/MatRF04/mr-taller-git-2026/commit/2d184b40d32d942c3a0c3a7eafc27f20c1e66087)
 
 ## Objetivo
 
