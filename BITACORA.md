@@ -61,6 +61,8 @@
   el radio de 3 bloques, que solo afecte a Player y Zombie, que la distancia la informe
   el cliente, y que se validen todos los objetivos antes de aplicar dano.
 - Decidi terminar POO-08 primero y dejar las correcciones de POO-06 para el final.
+- Importe la coleccion en Insomnia, la recorri completa (los 36 pedidos respondieron el
+  codigo esperado) y la exporte desde la app.
 
 ## Ejercicio POO-07 — Protocolo Sonoro / UICapable
 
