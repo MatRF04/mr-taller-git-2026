@@ -1,0 +1,800 @@
+type: collection.insomnia.rest/5.0
+schema_version: "5.1"
+name: Minecraft - CRUD y explosiones
+meta:
+  id: wrk_56acf7f6c9424c3a99cd43b79376233c
+  created: 1794268168234
+  modified: 1794268168234
+  description: ""
+collection:
+  - url: "{{ _.base_url }}/"
+    name: 00 Servicio vivo - 200
+    meta:
+      id: req_053667c5656f4afeb9d708fa42b384d8
+      created: 1794268168235
+      modified: 1794268359536
+      isPrivate: false
+      description: ""
+      sortKey: 0
+    method: GET
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/entidades"
+    name: 01 Crear Creeper - 201 (copiar id a creeper_id)
+    meta:
+      id: req_f843fb1816ab4f61a645d9e051ae4435
+      created: 1794268168235
+      modified: 1794268168235
+      isPrivate: false
+      description: ""
+      sortKey: 1
+    method: POST
+    body:
+      mimeType: application/json
+      text: '{"tipo":"Creeper","vida":20,"danoBase":5,"velocidad":3}'
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/entidades"
+    name: 05 Listar entidades - 200 (cada una con su tipo)
+    meta:
+      id: req_55aa4602103e479699ee85f5f77d4d99
+      created: 1794268168236
+      modified: 1794268168236
+      isPrivate: false
+      description: ""
+      sortKey: 5
+    method: GET
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/entidades"
+    name: 02 Crear Player - 201 (copiar id a player_id)
+    meta:
+      id: req_65e26c3bd0a74bee9904873339c915c8
+      created: 1794268168236
+      modified: 1794268168236
+      isPrivate: false
+      description: ""
+      sortKey: 2
+    method: POST
+    body:
+      mimeType: application/json
+      text: '{"tipo":"Player","vida":20,"danoBase":5,"velocidad":3}'
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/entidades"
+    name: 04 Crear otro Creeper - 201 (copiar id a otro_creeper_id)
+    meta:
+      id: req_adba93a463b54dcd8b2a81c23b854bcd
+      created: 1794268168236
+      modified: 1794268168236
+      isPrivate: false
+      description: ""
+      sortKey: 4
+    method: POST
+    body:
+      mimeType: application/json
+      text: '{"tipo":"Creeper","vida":20,"danoBase":5,"velocidad":3}'
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/entidades"
+    name: 03 Crear Zombie - 201 (copiar id a zombie_id)
+    meta:
+      id: req_ca3797dcc9ad4caabf2f67c12e70817c
+      created: 1794268168236
+      modified: 1794268168236
+      isPrivate: false
+      description: ""
+      sortKey: 3
+    method: POST
+    body:
+      mimeType: application/json
+      text: '{"tipo":"Zombie","vida":7,"danoBase":5,"velocidad":3,"hostilidad":true}'
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/entidades/9223372036854775807"
+    name: 12 GET id inexistente - 404
+    meta:
+      id: req_01d598b20f584365b43d9a2be401226b
+      created: 1794268168237
+      modified: 1794268168237
+      isPrivate: false
+      description: ""
+      sortKey: 12
+    method: GET
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/entidades/{{ _.creeper_id }}"
+    name: 06 Consultar Creeper por id - 200
+    meta:
+      id: req_52836bb8ef68440c98e683ce9a1efd1b
+      created: 1794268168237
+      modified: 1794268168237
+      isPrivate: false
+      description: ""
+      sortKey: 6
+    method: GET
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/entidades"
+    name: "11 Listar entidades - 200: la coleccion no crecio y el Creeper sigue con
+      vida 30"
+    meta:
+      id: req_6bf5244cf8d449bfa4fbe161f1f148e8
+      created: 1794268168237
+      modified: 1794268168237
+      isPrivate: false
+      description: ""
+      sortKey: 11
+    method: GET
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/entidades/{{ _.creeper_id }}"
+    name: 10 PUT ilegal danoBase negativo - 400
+    meta:
+      id: req_6ffb612e6e3a41abbefb71c551b2dbf2
+      created: 1794268168237
+      modified: 1794268168237
+      isPrivate: false
+      description: ""
+      sortKey: 10
+    method: PUT
+    body:
+      mimeType: application/json
+      text: '{"vida":30,"danoBase":-1,"velocidad":4}'
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/entidades"
+    name: 09 POST ilegal vida 0 - 400
+    meta:
+      id: req_76d84f8faf0a41138c1389ee76329fb8
+      created: 1794268168237
+      modified: 1794268168237
+      isPrivate: false
+      description: ""
+      sortKey: 9
+    method: POST
+    body:
+      mimeType: application/json
+      text: '{"tipo":"Player","vida":0,"danoBase":5,"velocidad":3}'
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/entidades/{{ _.creeper_id }}"
+    name: "08 Consultar Creeper - 200: vida 30 persistida"
+    meta:
+      id: req_7cb6b520a59447ce8f14072fd7e6c5f9
+      created: 1794268168237
+      modified: 1794268168237
+      isPrivate: false
+      description: ""
+      sortKey: 8
+    method: GET
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/entidades/{{ _.creeper_id }}"
+    name: 07 Actualizar Creeper - 200
+    meta:
+      id: req_e3c832e31b69422f9dac8053c429b837
+      created: 1794268168237
+      modified: 1794268168237
+      isPrivate: false
+      description: ""
+      sortKey: 7
+    method: PUT
+    body:
+      mimeType: application/json
+      text: '{"vida":30,"danoBase":6,"velocidad":4}'
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/entidades/9223372036854775807"
+    name: 13 DELETE id inexistente - 404
+    meta:
+      id: req_eafe8ac4d13a4e1d8a39bd5f4e39d158
+      created: 1794268168237
+      modified: 1794268168237
+      isPrivate: false
+      description: ""
+      sortKey: 13
+    method: DELETE
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/sonidos"
+    name: 14 Protocolo Sonoro - 200
+    meta:
+      id: req_17c7cba3b797434fbb2c54cf9d2e72ba
+      created: 1794268168238
+      modified: 1794268168238
+      isPrivate: false
+      description: ""
+      sortKey: 14
+    method: GET
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/ui"
+    name: 15 Protocolo UICapable - 200
+    meta:
+      id: req_2469e6c50e604540b14e5cfe205b0c6a
+      created: 1794268168238
+      modified: 1794268168238
+      isPrivate: false
+      description: ""
+      sortKey: 15
+    method: GET
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/entidades/{{ _.creeper_id }}/explotar"
+    name: 19 Tipo de objetivo invalido - 400 (TipoEntidadInvalidoException)
+    meta:
+      id: req_35c304c2bc9e418f9ba14c05b69bdc75
+      created: 1794268168238
+      modified: 1794268168238
+      isPrivate: false
+      description: ""
+      sortKey: 19
+    method: POST
+    body:
+      mimeType: application/json
+      text: '{"objetivos":[{"id":{{ _.otro_creeper_id }},"distancia":1}]}'
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/entidades/creepers/listos"
+    name: 16 Creepers listos para explotar - 200 (consulta del repositorio)
+    meta:
+      id: req_48594a2b95c248198cf0d0b3c61ff2e2
+      created: 1794268168238
+      modified: 1794268168238
+      isPrivate: false
+      description: ""
+      sortKey: 16
+    method: GET
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/entidades/9223372036854775807/explotar"
+    name: 17 Origen inexistente - 404 (EntidadNoEncontradaException)
+    meta:
+      id: req_4d4afcc510a34c51804a46e7434c3968
+      created: 1794268168238
+      modified: 1794268168238
+      isPrivate: false
+      description: ""
+      sortKey: 17
+    method: POST
+    body:
+      mimeType: application/json
+      text: '{"objetivos":[{"id":{{ _.player_id }},"distancia":1}]}'
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/entidades/{{ _.creeper_id }}/explotar"
+    name: 20 Distancia negativa - 400 (DistanciaInvalidaException)
+    meta:
+      id: req_b34e734649f041b5a853e4a311b4decd
+      created: 1794268168238
+      modified: 1794268168238
+      isPrivate: false
+      description: ""
+      sortKey: 20
+    method: POST
+    body:
+      mimeType: application/json
+      text: '{"objetivos":[{"id":{{ _.player_id }},"distancia":-1}]}'
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/entidades/{{ _.player_id }}/explotar"
+    name: 18 Tipo de origen invalido - 400 (TipoEntidadInvalidoException)
+    meta:
+      id: req_f5cdafa3b96e4e2393fc10d718c80338
+      created: 1794268168238
+      modified: 1794268168238
+      isPrivate: false
+      description: ""
+      sortKey: 18
+    method: POST
+    body:
+      mimeType: application/json
+      text: '{"objetivos":[{"id":{{ _.zombie_id }},"distancia":1}]}'
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/entidades/{{ _.creeper_id }}/explotar"
+    name: 25 Distancia ausente - 400 (DistanciaInvalidaException)
+    meta:
+      id: req_089e7389557949e3b9dd270cca1c1a2d
+      created: 1794268168239
+      modified: 1794268168239
+      isPrivate: false
+      description: ""
+      sortKey: 25
+    method: POST
+    body:
+      mimeType: application/json
+      text: '{"objetivos":[{"id":{{ _.player_id }}}]}'
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/entidades/{{ _.creeper_id }}/explotar"
+    name: 23 Objetivos vacios - 400
+    meta:
+      id: req_1983e1f1d2774b72955b5ab0d0416137
+      created: 1794268168239
+      modified: 1794268168239
+      isPrivate: false
+      description: ""
+      sortKey: 23
+    method: POST
+    body:
+      mimeType: application/json
+      text: '{"objetivos":[]}'
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/entidades/{{ _.creeper_id }}/explotar"
+    name: 22 Objetivo inexistente - 404 sin cambios parciales
+    meta:
+      id: req_6483318b0cca4b6aa32479446ae93866
+      created: 1794268168239
+      modified: 1794268168239
+      isPrivate: false
+      description: ""
+      sortKey: 22
+    method: POST
+    body:
+      mimeType: application/json
+      text: '{"objetivos":[{"id":{{ _.player_id
+        }},"distancia":1},{"id":9223372036854775807,"distancia":1}]}'
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/entidades/{{ _.creeper_id }}/explotar"
+    name: "26 Simulacion caso feliz - 200: Player queda en 10, Zombie en 0"
+    meta:
+      id: req_741ca4e7ad064ed1aa27ae1b6d43e976
+      created: 1794268168239
+      modified: 1794268168239
+      isPrivate: false
+      description: ""
+      sortKey: 26
+    method: POST
+    body:
+      mimeType: application/json
+      text: '{"objetivos":[{"id":{{ _.player_id }},"distancia":1},{"id":{{ _.zombie_id
+        }},"distancia":3}]}'
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/entidades/{{ _.creeper_id }}/explotar"
+    name: 21 Objetivo duplicado - 400 (ObjetivoDuplicadoException)
+    meta:
+      id: req_780e67125a8e48f99a4af64cfd31d436
+      created: 1794268168239
+      modified: 1794268168239
+      isPrivate: false
+      description: ""
+      sortKey: 21
+    method: POST
+    body:
+      mimeType: application/json
+      text: '{"objetivos":[{"id":{{ _.player_id }},"distancia":1},{"id":{{ _.player_id
+        }},"distancia":2}]}'
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/entidades/{{ _.creeper_id }}"
+    name: "27 Consultar Creeper - 200: vida 0 y yaExploto true"
+    meta:
+      id: req_994a7e26e57147dfa19664d4f6545cf9
+      created: 1794268168239
+      modified: 1794268168239
+      isPrivate: false
+      description: ""
+      sortKey: 27
+    method: GET
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/entidades/{{ _.creeper_id }}/explotar"
+    name: 24 Objetivo sin id - 400
+    meta:
+      id: req_ca303f8611e4464697a1fb3e8d15a874
+      created: 1794268168239
+      modified: 1794268168239
+      isPrivate: false
+      description: ""
+      sortKey: 24
+    method: POST
+    body:
+      mimeType: application/json
+      text: '{"objetivos":[{"distancia":1}]}'
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/entidades/{{ _.player_id }}"
+    name: "28 Consultar Player - 200: vida 10"
+    meta:
+      id: req_21d41e01f612460d9c597270822bb6ad
+      created: 1794268168240
+      modified: 1794268168240
+      isPrivate: false
+      description: ""
+      sortKey: 28
+    method: GET
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/entidades?vivas=true"
+    name: "30 Listar vivas - 200: ya no aparecen el Creeper ni el Zombie"
+    meta:
+      id: req_804863d53edc4259b7995669fa1e8a53
+      created: 1794268168240
+      modified: 1794268168240
+      isPrivate: false
+      description: ""
+      sortKey: 30
+    method: GET
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/entidades/{{ _.creeper_id }}/explotar"
+    name: 31 Creeper ya exploto - 409 (CreeperYaExplotoException)
+    meta:
+      id: req_8fba5c8004734df89cfbfda559e88164
+      created: 1794268168240
+      modified: 1794268168240
+      isPrivate: false
+      description: ""
+      sortKey: 31
+    method: POST
+    body:
+      mimeType: application/json
+      text: '{"objetivos":[{"id":{{ _.player_id }},"distancia":1}]}'
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/entidades/{{ _.zombie_id }}"
+    name: "29 Consultar Zombie - 200: vida 0"
+    meta:
+      id: req_b7b8cd7d96bc402795720f1ca4f7e61a
+      created: 1794268168240
+      modified: 1794268168240
+      isPrivate: false
+      description: ""
+      sortKey: 29
+    method: GET
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/entidades/{{ _.otro_creeper_id }}/explotar"
+    name: 32 Objetivo muerto - 409 (EntidadMuertaException)
+    meta:
+      id: req_7c6183c104944a91886875b566482eca
+      created: 1794268168241
+      modified: 1794268168241
+      isPrivate: false
+      description: ""
+      sortKey: 32
+    method: POST
+    body:
+      mimeType: application/json
+      text: '{"objetivos":[{"id":{{ _.zombie_id }},"distancia":1}]}'
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/entidades/{{ _.otro_creeper_id }}/explotar"
+    name: "33 Fuera del radio - 200: Player conserva vida 10"
+    meta:
+      id: req_a64d7ba3e3694eb89a126a47e6912b0b
+      created: 1794268168241
+      modified: 1794268168241
+      isPrivate: false
+      description: ""
+      sortKey: 33
+    method: POST
+    body:
+      mimeType: application/json
+      text: '{"objetivos":[{"id":{{ _.player_id }},"distancia":4}]}'
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/entidades/{{ _.creeper_id }}"
+    name: 35 Consultar Creeper eliminado - 404
+    meta:
+      id: req_a2fa5f68ccbb492fa26ec71198ddba34
+      created: 1794268168242
+      modified: 1794268168242
+      isPrivate: false
+      description: ""
+      sortKey: 35
+    method: GET
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/entidades/{{ _.creeper_id }}"
+    name: 34 Eliminar Creeper - 204
+    meta:
+      id: req_f4992deba5fa4fdc8d62af34893b6e42
+      created: 1794268168242
+      modified: 1794268168242
+      isPrivate: false
+      description: ""
+      sortKey: 34
+    method: DELETE
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_ff7ae67e062e0d28c07319337c1975515e80dae4
+    created: 1794268168286
+    modified: 1794268168286
+environments:
+  name: Base Environment
+  meta:
+    id: env_6d62ed6472fc41479e082069c9d49094
+    created: 1794268168235
+    modified: 1794268237545
+    isPrivate: false
+  data:
+    base_url: http://localhost:8080
+    creeper_id: 1
+    player_id: 2
+    zombie_id: 3
+    otro_creeper_id: 4

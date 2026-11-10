@@ -1,5 +1,6 @@
 package mr_taller_git_2026.domain;
 
+@jakarta.persistence.Entity
 public class ZombiePequeño extends Zombie {
     private int velocidadAumentada;
 
@@ -15,5 +16,9 @@ public class ZombiePequeño extends Zombie {
 
     public int getVelocidadAumentada() {
         return velocidadAumentada;
+    }
+
+    public void setVelocidadAumentada(int velocidadAumentada) {
+        this.velocidadAumentada = validarNoNegativo(velocidadAumentada, "velocidadAumentada");
     }
 }

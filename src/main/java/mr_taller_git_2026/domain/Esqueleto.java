@@ -1,5 +1,6 @@
 package mr_taller_git_2026.domain;
 
+@jakarta.persistence.Entity
 public class Esqueleto extends Entidad {
     private boolean usaArco;
 
@@ -31,5 +32,9 @@ public class Esqueleto extends Entidad {
 
     public boolean isUsaArco() {
         return usaArco;
+    }
+
+    public void setUsaArco(boolean usaArco) {
+        this.usaArco = usaArco;
     }
 }

@@ -1,5 +1,6 @@
 package mr_taller_git_2026.domain;
 
+@jakarta.persistence.Entity
 public class Aldeano extends Entidad {
     private boolean comercializacion;
 
@@ -19,5 +20,9 @@ public class Aldeano extends Entidad {
 
     public boolean isComercializacion() {
         return comercializacion;
+    }
+
+    public void setComercializacion(boolean comercializacion) {
+        this.comercializacion = comercializacion;
     }
 }
