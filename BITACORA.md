@@ -1,6 +1,6 @@
 # Bitacora de asistencia de IA
 
-**Asignatura:** Lenguaje de Programacion 3 (CYT646)
+**Asignatura:** Lenguaje de Programación 3 (CYT646)
 **Estudiante:** Mateo (GitHub: MatRF04)
 **Dominio:** Minecraft
 
@@ -13,20 +13,20 @@
 - **Resumen de prompts:**
   - Pedi un CRUD REST para Entidad con arquitectura de tres capas, un service con
     validaciones y persistencia en H2 con Spring Data.
-  - Pedi un comando curl para probar cada operacion del CRUD.
-  - Consulte la configuracion de H2 en application.properties y el acceso a la consola.
+  - Pedi un comando curl para probar cada operación del CRUD.
+  - Consulte la configuración de H2 en application.properties y el acceso a la consola.
 - **Que hizo la IA:** EntidadController, EntidadService, EntidadRepository, EntidadRequest,
-  el mapeo JPA de Entidad y sus hijas, y la configuracion de H2.
+  el mapeo JPA de Entidad y sus hijas, y la configuración de H2.
 
 ### Explosiones (2026-10-29)
 
 - **Asistente:** OpenCode
 - **Modelo:** GPT-6 Astra (OpenAI)
-- **Pedido:** implementar una simulacion REST con Creeper, Player y Zombie, conservando
-  CRUD y H2, dos reglas, excepciones con handlers y coleccion de Insomnia.
-- **Que hizo la IA:** Creeper persistente, dano limitado por la vida, servicio transaccional,
-  endpoint de explosion, jerarquia de errores, pruebas de integracion y documentacion.
-- La simulacion usa dano fijo de 10 hasta 3 bloques y distancias proporcionadas por el
+- **Pedido:** implementar una simulación REST con Creeper, Player y Zombie, conservando
+  CRUD y H2, dos reglas, excepciones con handlers y colección de Insomnia.
+- **Que hizo la IA:** Creeper persistente, daño limitado por la vida, servicio transaccional,
+  endpoint de explosion, jerarquía de errores, pruebas de integracion y documentacion.
+- La simulación usa daño fijo de 10 hasta 3 bloques y distancias proporcionadas por el
   cliente; no implementa la formula exacta de Minecraft.
 
 ### Revision contra el enunciado y la rubrica (2026-11-09)
@@ -36,7 +36,7 @@
 
 #### Resumen de prompts
 
-1. Pedi revisar que tenia y que faltaba del proyecto segun el enunciado de POO-08.
+1. Pedi revisar que tenia y que faltaba del proyecto según el enunciado de POO-08.
 2. Pedi contrastar ese plan con la rubrica antes de implementarlo.
 3. Pedi implementarlo y dejar las correcciones de POO-06 para el final.
 
@@ -48,21 +48,21 @@
 - Agrego consultas propias al repositorio (`findByVidaGreaterThan`, `findCreepersListosParaExplotar`)
   con sus endpoints y pruebas.
 - Movio `EntidadNoEncontradaException` a `domain.exception`.
-- Completo la coleccion de Insomnia (GET /, POST/PUT ilegales, 404 de GET y DELETE,
+- Completo la colección de Insomnia (GET /, POST/PUT ilegales, 404 de GET y DELETE,
   protocolo, GET posterior al DELETE) y la recorrio contra el servicio.
 - Reescribio el README (propiedades H2, Insomnia, respuestas a "Que hay que pensar",
-  diagramas) y escribio `ENTREGA_POO-08.md`.
+  diagramas) y escribió `ENTREGA_POO-08.md`.
 
 ### Que revise / decidi yo
 
-- Elegi la regla de la simulacion: la explosion del creeper, que muere al explotar y
+- Elegi la regla de la simulación: la explosion del creeper, que muere al explotar y
   dana a las entidades cercanas.
-- Los detalles de la implementacion los propuso la IA y los acepte: el dano fijo de 10,
+- Los detalles de la implementación los propuso la IA y los acepte: el daño fijo de 10,
   el radio de 3 bloques, que solo afecte a Player y Zombie, que la distancia la informe
-  el cliente, y que se validen todos los objetivos antes de aplicar dano.
+  el cliente, y que se validen todos los objetivos antes de aplicar daño.
 - Decidi terminar POO-08 primero y dejar las correcciones de POO-06 para el final.
-- Importe la coleccion en Insomnia, la recorri completa (los 36 pedidos respondieron el
-  codigo esperado) y la exporte desde la app.
+- Importe la colección en Insomnia, la recorri completa (los 36 pedidos respondieron el
+  código esperado) y la exporte desde la app.
 
 ## Ejercicio POO-07 — Protocolo Sonoro / UICapable
 
@@ -70,7 +70,7 @@
 - **Modelo:** GPT-6 Astra (OpenAI)
 - **Resumen de prompts:** no conserve los prompts originales; de memoria, le pedi a
   OpenCode crear una interfaz para que el Cerdo y un bloque musical emitan sonido,
-  un endpoint que los liste a traves de la interfaz, y despues ampliarla con imagen,
+  un endpoint que los liste a traves de la interfaz, y después ampliarla con imagen,
   posicion y velocidad para la UI.
 - **Que decidi yo:** elegi el protocolo Sonoro con el Cerdo (Entidad) y el bloque
   musical (Bloque), dos familias distintas que emiten sonido.
@@ -87,8 +87,8 @@
 #### Resumen de prompts
 
 1. Pedi revisar el enunciado del ejercicio y la rubrica y analizar el proyecto para saber que faltaba.
-2. Pedi implementar: sobrecarga de un mensaje del dominio, manejo de errores de validacion en
-   el controller, actualizacion del README y creacion de esta bitacora.
+2. Pedi implementar: sobrecarga de un mensaje del dominio, manejo de errores de validación en
+   el controller, actualizacion del README y creación de esta bitacora.
 3. Pedi como construir las dos hijas desde la URL (punto 5) y que lo implementara, con
    tests y la documentacion actualizada.
 4. Pedi reescribir `ENTREGA_CLASSROOM.md` para este ejercicio e incluir el hash del commit.
@@ -97,8 +97,8 @@
 
 - Agrego `Esqueleto.disparar()` y `Esqueleto.disparar(int distancia)` (sobrecarga).
 - Agrego `GET /entidades/esqueleto/disparar` y un `@ExceptionHandler` que responde 400 con el
-  mensaje de la excepcion de dominio.
-- Cambio `ComportamientoController` para construir `Zombie` y `Aldeano` con parametros de la
+  mensaje de la excepción de dominio.
+- Cambio `ComportamientoController` para construir `Zombie` y `Aldeano` con parámetros de la
   URL (`GET /entidades/comportamientos?vida=..&danoBase=..&velocidad=..&hostilidad=..&comercializacion=..`),
   guardarlos en una `List<Entidad>` y devolver `describirComportamiento()` de cada uno sin
   condicionales por tipo.
@@ -111,6 +111,10 @@
 
 #### Que revise / decidi yo
 
-- Las reglas de validacion siguen en `Entidad`; el controller no corrige valores.
+- Las reglas de validación siguen en `Entidad`; el controller no corrige valores.
 - Los atributos siguen privados y sin setters, por lo que el controller no puede asignar
   vida o municion a mano.
+
+## Corrección de POO-08
+
+Con Codex (GPT-6) se aplicó la devolución docente. Las validaciones pasaron a los servicios y se incorporaron pruebas HTTP para verificar que la muerte sea definitiva.

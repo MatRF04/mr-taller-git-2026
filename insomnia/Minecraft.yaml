@@ -176,7 +176,7 @@ collection:
         store: true
       rebuildPath: true
   - url: "{{ _.base_url }}/entidades"
-    name: "11 Listar entidades - 200: la coleccion no crecio y el Creeper sigue con
+    name: "11 Listar entidades - 200: la colección no creció y el Creeper sigue con
       vida 30"
     meta:
       id: req_6bf5244cf8d449bfa4fbe161f1f148e8
@@ -339,7 +339,7 @@ collection:
         store: true
       rebuildPath: true
   - url: "{{ _.base_url }}/entidades/{{ _.creeper_id }}/explotar"
-    name: 19 Tipo de objetivo invalido - 400 (TipoEntidadInvalidoException)
+    name: 19 Tipo de objetivo inválido - 400 (TipoEntidadInvalidoException)
     meta:
       id: req_35c304c2bc9e418f9ba14c05b69bdc75
       created: 1794268168238
@@ -429,7 +429,7 @@ collection:
         store: true
       rebuildPath: true
   - url: "{{ _.base_url }}/entidades/{{ _.player_id }}/explotar"
-    name: 18 Tipo de origen invalido - 400 (TipoEntidadInvalidoException)
+    name: 18 Tipo de origen inválido - 400 (TipoEntidadInvalidoException)
     meta:
       id: req_f5cdafa3b96e4e2393fc10d718c80338
       created: 1794268168238
@@ -526,7 +526,7 @@ collection:
         store: true
       rebuildPath: true
   - url: "{{ _.base_url }}/entidades/{{ _.creeper_id }}/explotar"
-    name: "26 Simulacion caso feliz - 200: Player queda en 10, Zombie en 0"
+    name: "26 Simulación caso feliz - 200: Player queda en 10, Zombie en 0"
     meta:
       id: req_741ca4e7ad064ed1aa27ae1b6d43e976
       created: 1794268168239
@@ -654,7 +654,7 @@ collection:
         store: true
       rebuildPath: true
   - url: "{{ _.base_url }}/entidades/{{ _.creeper_id }}/explotar"
-    name: 31 Creeper ya exploto - 409 (CreeperYaExplotoException)
+    name: 31 Creeper ya explotó - 409 (CreeperYaExplotoException)
     meta:
       id: req_8fba5c8004734df89cfbfda559e88164
       created: 1794268168240
@@ -771,6 +771,90 @@ collection:
       description: ""
       sortKey: 34
     method: DELETE
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/entidades/{{ _.zombie_id }}"
+    name: 30a PUT zombie - 409
+    meta:
+      id: req_20e361d6676a489c935f0665eecd40e4
+      created: 1794268168237
+      modified: 1794268168237
+      isPrivate: false
+      description: ""
+      sortKey: 30.1
+    method: PUT
+    body:
+      mimeType: application/json
+      text: '{"vida":20,"danoBase":5,"velocidad":4}'
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/entidades/{{ _.zombie_id }}"
+    name: 30b GET zombie - 200 con vida 0
+    meta:
+      id: req_c2432e2789c0435c8cd40b6572f706ee
+      created: 1794268168237
+      modified: 1794268168237
+      isPrivate: false
+      description: ""
+      sortKey: 30.2
+    method: GET
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/entidades/{{ _.creeper_id }}"
+    name: 30c PUT creeper - 409
+    meta:
+      id: req_eb71902c673141f7bf1e72eda8c1d5f9
+      created: 1794268168237
+      modified: 1794268168237
+      isPrivate: false
+      description: ""
+      sortKey: 30.3
+    method: PUT
+    body:
+      mimeType: application/json
+      text: '{"vida":20,"danoBase":5,"velocidad":4}'
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/entidades/{{ _.creeper_id }}"
+    name: 30d GET creeper - 200 con vida 0
+    meta:
+      id: req_aa7ba35a2e894a96b6396f0a6c53c5c4
+      created: 1794268168237
+      modified: 1794268168237
+      isPrivate: false
+      description: ""
+      sortKey: 30.4
+    method: GET
     settings:
       renderRequestBody: true
       encodeUrl: true

@@ -6,7 +6,7 @@
 **Usuario de GitHub:** MatRF04  
 **Dominio:** Minecraft  
 **Repositorio:** [MatRF04/mr-taller-git-2026](https://github.com/MatRF04/mr-taller-git-2026)  
-**Commit de la solución:** [2d184b40d32d942c3a0c3a7eafc27f20c1e66087](https://github.com/MatRF04/mr-taller-git-2026/commit/2d184b40d32d942c3a0c3a7eafc27f20c1e66087)
+**Commit de la entrega evaluada:** [2d184b40d32d942c3a0c3a7eafc27f20c1e66087](https://github.com/MatRF04/mr-taller-git-2026/commit/2d184b40d32d942c3a0c3a7eafc27f20c1e66087)
 
 ## Objetivo
 
@@ -29,7 +29,7 @@ excepciones y un handler por tipo, y se prueba con una colección de Insomnia ve
 5. **CRUD:** `POST /entidades` (201), `GET /entidades`, `GET /entidades/{id}` (200/404),
    `PUT /entidades/{id}` (200), `DELETE /entidades/{id}` (204). El JSON lleva `tipo` para
    distinguir el subtipo (`@JsonTypeInfo`).
-6. **Dos reglas** (métodos de `Creeper`):
+6. **Dos reglas** (en `ExplosionService`):
    1. Un creeper vivo explota una sola vez y muere al hacerlo.
    2. La explosión causa 10 de daño a cada `Player` o `Zombie` a 3 bloques o menos, sin bajar su vida de cero.
 7. **Simulación:** `POST /entidades/{id}/explotar` con `{"objetivos":[{"id":..,"distancia":..}]}`.
@@ -45,8 +45,8 @@ excepciones y un handler por tipo, y se prueba con una colección de Insomnia ve
   `distancia` no negativos. Después de recibir daño la vida nunca baja de 0.
 - No hay setters de `vida`, `danoBase`, `velocidad`, `id` ni `yaExploto`.
 - Un creeper que ya explotó no puede volver a explotar ni el CRUD puede reiniciarlo.
-- Una explosión inválida no deja daños parciales: el creeper valida todos los objetivos antes de cambiar estado.
-- La entrada JSON nunca se deserializa directo a `Entidad`: pasa por los constructores de negocio.
+- Una explosión inválida no deja daños parciales: `ExplosionService` valida todos los objetivos antes de cambiar estado.
+- La entrada JSON nunca se deserializa directo a `Entidad`: el servicio valida el DTO antes de construir o actualizar la entidad.
 
 ## Cómo probarlo
 
@@ -83,9 +83,6 @@ usuario `sa`, sin clave → `SELECT * FROM ENTIDAD;`
 **Si mañana cambiamos H2 por otra base, ¿qué archivos se tocan?** Solo `pom.xml` (driver) y
 `application.properties` (URL y credenciales). Dominio, repositorio, servicios y controllers quedan igual.
 
-**¿Quién lanza la excepción, el controller o el objeto del juego?** El objeto del juego:
-`Creeper` lanza las hijas de `ExplosionException` y `Entidad` rechaza valores inválidos.
-El controller solo dispara la regla y `ErrorController` traduce cada tipo a un código HTTP.
+**¿Quién lanza la excepción?** `EntidadService` rechaza los datos inválidos (400) y cualquier actualización de una entidad muerta o un Creeper que ya explotó (409). La decisión depende del estado persistido, aunque el pedido indique vida 20. `ExplosionService` rechaza los participantes y las distancias inválidas. `ErrorController` traduce las excepciones a respuestas HTTP.
 
-**¿Puede otra capa dejar el objeto en un estado imposible?** No: ni el controller, ni el JSON,
-ni JPA pueden asignar vida o el estado de explosión sin pasar por los mensajes del dominio.
+Los pedidos 30a–30d intentan actualizar al Zombie muerto y al Creeper que explotó. Los GET posteriores confirman que ambos conservan vida 0.
