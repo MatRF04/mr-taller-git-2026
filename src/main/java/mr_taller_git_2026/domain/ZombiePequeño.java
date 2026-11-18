@@ -11,7 +11,7 @@ public class ZombiePequeño extends Zombie {
     public ZombiePequeño(int vida, int danoBase, int velocidad, boolean hostilidad,
             int velocidadAumentada) {
         super(vida, danoBase, velocidad, hostilidad);
-        this.velocidadAumentada = validarNoNegativo(velocidadAumentada, "velocidadAumentada");
+        this.velocidadAumentada = velocidadAumentada;
     }
 
     public int getVelocidadAumentada() {
@@ -19,6 +19,6 @@ public class ZombiePequeño extends Zombie {
     }
 
     public void setVelocidadAumentada(int velocidadAumentada) {
-        this.velocidadAumentada = validarNoNegativo(velocidadAumentada, "velocidadAumentada");
+        this.velocidadAumentada = velocidadAumentada;
     }
 }

@@ -70,6 +70,7 @@ public class EntidadController {
             @RequestParam int danoBase,
             @RequestParam int velocidad,
             @RequestParam boolean hostilidad) {
+        EntidadService.validarAtributos(vida, danoBase, velocidad);
         return new Zombie(vida, danoBase, velocidad, hostilidad);
     }
 
@@ -80,6 +81,8 @@ public class EntidadController {
             @RequestParam int velocidad,
             @RequestParam boolean usaArco,
             @RequestParam(required = false) Integer distancia) {
+        EntidadService.validarAtributos(vida, danoBase, velocidad);
+        EntidadService.validarDistanciaDisparo(distancia);
         Esqueleto esqueleto = new Esqueleto(vida, danoBase, velocidad, usaArco);
         String resultado = distancia == null
                 ? esqueleto.disparar()

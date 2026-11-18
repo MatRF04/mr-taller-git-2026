@@ -38,11 +38,21 @@ class ExplosionTests {
                 .andExpect(jsonPath("$.afectados[0].danoRecibido").value(10))
                 .andExpect(jsonPath("$.afectados[1].danoRecibido").value(7))
                 .andExpect(jsonPath("$.afectados[1].vidaFinal").value(0));
+        String cambios = "{\"vida\":20,\"danoBase\":2,\"velocidad\":1}";
+        for (Entidad muerta : java.util.List.of(creeper, zombie)) {
+            String ruta = "/entidades/" + muerta.getId();
+            mvc.perform(put(ruta).contentType(MediaType.APPLICATION_JSON).content(cambios))
+                    .andExpect(status().isConflict());
+            mvc.perform(get(ruta)).andExpect(status().isOk())
+                    .andExpect(jsonPath("$.vida").value(0)).andExpect(jsonPath("$.danoBase").value(5));
+        }
         assertEquals(10, repository.findById(player.getId()).orElseThrow().getVida());
+        mvc.perform(put("/entidades/" + player.getId()).contentType(MediaType.APPLICATION_JSON).content(cambios))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.vida").value(20));
         assertEquals(0, repository.findById(zombie.getId()).orElseThrow().getVida());
         assertTrue(((Creeper) repository.findById(creeper.getId()).orElseThrow()).isYaExploto());
         explotar(creeper.getId(), objetivo(player.getId(), 1)).andExpect(status().isConflict())
-                .andExpect(jsonPath("$.error").value("El creeper ya exploto"));
+                .andExpect(jsonPath("$.error").value("El creeper ya explotó"));
     }
 
     @Test
@@ -78,14 +88,14 @@ class ExplosionTests {
     void rechazaMuertosYEntradaIncompleta() throws Exception {
         var creeper = creeper();
         var player = player(20);
-        player.recibirDano(20);
+        player.registrarVida(0);
         repository.save(player);
         explotar(creeper.getId(), objetivo(player.getId(), 1)).andExpect(status().isConflict())
                 .andExpect(jsonPath("$.error").value("El objetivo esta muerto: " + player.getId()));
         explotar(creeper.getId(), "").andExpect(status().isBadRequest());
         explotar(creeper.getId(), "null").andExpect(status().isBadRequest());
         explotar(creeper.getId(), "{\"id\":" + player.getId() + "}").andExpect(status().isBadRequest());
-        creeper.recibirDano(20);
+        creeper.registrarVida(0);
         repository.save(creeper);
         explotar(creeper.getId(), objetivo(player.getId(), 1)).andExpect(status().isConflict())
                 .andExpect(jsonPath("$.error").value("El creeper esta muerto"));

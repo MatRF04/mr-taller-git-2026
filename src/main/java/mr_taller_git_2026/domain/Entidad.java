@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 // Jackson agrega "tipo" al serializar para que el cliente distinga el subtipo.
 // La entrada se recibe con EntidadRequest: nunca se deserializa Entidad directo,
-// porque Jackson asignaria los campos privados sin pasar por los constructores.
+// porque Jackson asignaría los campos privados sin pasar por los constructores.
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "tipo")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = Creeper.class, name = "Creeper"),
@@ -31,15 +31,11 @@ public abstract class Entidad {
         return vida > 0;
     }
 
-    public void recibirDano(int cantidad) {
-        validarNoNegativo(cantidad, "cantidad");
-        vida = Math.max(0, vida - cantidad);
+    public void registrarVida(int vida) {
+        this.vida = vida;
     }
 
     public void actualizarAtributos(int vida, int danoBase, int velocidad) {
-        validarVida(vida);
-        validarNoNegativo(danoBase, "danoBase");
-        validarNoNegativo(velocidad, "velocidad");
         this.vida = vida;
         this.danoBase = danoBase;
         this.velocidad = velocidad;
@@ -54,26 +50,10 @@ public abstract class Entidad {
     }
 
     protected Entidad(int vida, int danoBase, int velocidad) {
-        this.vida = validarVida(vida);
-        this.danoBase = validarNoNegativo(danoBase, "danoBase");
-        this.velocidad = validarNoNegativo(velocidad, "velocidad");
+        actualizarAtributos(vida, danoBase, velocidad);
     }
 
     public abstract String describirComportamiento();
-
-    protected static int validarVida(int vida) {
-        if (vida <= 0) {
-            throw new IllegalArgumentException("La vida debe ser mayor que cero");
-        }
-        return vida;
-    }
-
-    protected static int validarNoNegativo(int valor, String nombre) {
-        if (valor < 0) {
-            throw new IllegalArgumentException(nombre + " no puede ser negativo");
-        }
-        return valor;
-    }
 
     public int getVida() {
         return vida;
