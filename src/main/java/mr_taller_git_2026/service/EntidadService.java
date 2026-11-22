@@ -3,6 +3,8 @@ package mr_taller_git_2026.service;
 import java.util.List;
 import mr_taller_git_2026.domain.*;
 import mr_taller_git_2026.domain.exception.EntidadNoEncontradaException;
+import mr_taller_git_2026.domain.exception.CreeperYaExplotoException;
+import mr_taller_git_2026.domain.exception.EntidadMuertaException;
 import mr_taller_git_2026.repository.EntidadRepository;
 import mr_taller_git_2026.rest.dto.EntidadRequest;
 import org.springframework.stereotype.Service;
@@ -55,6 +57,12 @@ public class EntidadService {
     @Transactional
     public Entidad actualizar(Long id, EntidadRequest datos) {
         Entidad entidad = obtener(id);
+        if (entidad instanceof Creeper creeper && creeper.isYaExploto()) {
+            throw new CreeperYaExplotoException("El creeper ya explotó");
+        }
+        if (!entidad.estaViva()) {
+            throw new EntidadMuertaException("La entidad está muerta");
+        }
         validar(datos);
         String tipoActual = entidad instanceof ZombiePequeño ? "ZombiePequeno" : entidad.getClass().getSimpleName();
         if (datos.tipo() != null && !datos.tipo().equals(tipoActual)) {
@@ -84,7 +92,17 @@ public class EntidadService {
         if (datos.velocidadAumentada() < 0) {
             throw new IllegalArgumentException("velocidadAumentada no puede ser negativa");
         }
-        if (datos.vida() <= 0 || datos.danoBase() < 0 || datos.velocidad() < 0) {
+        validarAtributos(datos.vida(), datos.danoBase(), datos.velocidad());
+    }
+
+    public static void validarDistanciaDisparo(Integer distancia) {
+        if (distancia != null && distancia < 0) {
+            throw new IllegalArgumentException("La distancia no puede ser negativa");
+        }
+    }
+
+    public static void validarAtributos(int vida, int danoBase, int velocidad) {
+        if (vida <= 0 || danoBase < 0 || velocidad < 0) {
             throw new IllegalArgumentException("La vida debe ser mayor que cero; danoBase y velocidad no pueden ser negativos");
         }
     }

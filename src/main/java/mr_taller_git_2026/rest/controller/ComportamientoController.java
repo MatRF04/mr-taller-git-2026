@@ -1,6 +1,7 @@
 package mr_taller_git_2026.rest.controller;
 
 import java.util.List;
+import mr_taller_git_2026.service.EntidadService;
 import java.util.Map;
 
 import mr_taller_git_2026.domain.Aldeano;
@@ -20,6 +21,7 @@ public class ComportamientoController {
             @RequestParam int velocidad,
             @RequestParam boolean hostilidad,
             @RequestParam boolean comercializacion) {
+        EntidadService.validarAtributos(vida, danoBase, velocidad);
         List<Entidad> entidades = List.of(
                 new Zombie(vida, danoBase, velocidad, hostilidad),
                 new Aldeano(vida, danoBase, velocidad, comercializacion));

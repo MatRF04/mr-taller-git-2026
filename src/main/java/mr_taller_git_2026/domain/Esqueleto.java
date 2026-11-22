@@ -23,7 +23,6 @@ public class Esqueleto extends Entidad {
     }
 
     public String disparar(int distancia) {
-        validarNoNegativo(distancia, "distancia");
         if (!usaArco) {
             return "No tiene arco: no puede disparar a " + distancia + " bloques.";
         }
