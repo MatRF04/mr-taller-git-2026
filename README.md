@@ -17,13 +17,13 @@ La aplicación queda disponible en `http://localhost:8080`. `GET /` responde
 
 `src/main/resources/application.properties`:
 
-| Propiedad | Valor | Para que sirve |
+| Propiedad | Valor | Para qué sirve |
 | --- | --- | --- |
 | `spring.datasource.url` | `jdbc:h2:file:./data/entidades` | Guarda la base en el archivo `./data/entidades.mv.db`, así los datos sobreviven a un reinicio. |
 | `spring.datasource.username` | `sa` | Usuario con el que la aplicación (y la consola) se conectan a H2. |
 | `spring.datasource.password` | vacío | La base local de desarrollo no tiene clave. |
 | `spring.jpa.hibernate.ddl-auto` | `update` | Hibernate crea la tabla si no existe y agrega columnas nuevas sin borrar los datos. |
-| `spring.jpa.open-in-view` | `false` | La sesion de JPA se cierra al terminar el servicio; el controller no dispara consultas al serializar. |
+| `spring.jpa.open-in-view` | `false` | La sesión de JPA se cierra al terminar el servicio; el controller no dispara consultas al serializar. |
 | `spring.h2.console.enabled` | `true` | Habilita la consola web de H2 en `/h2-console` (solo para desarrollo). |
 
 La carpeta `data/` está en `.gitignore`. Las pruebas usan otra base, en memoria
@@ -51,7 +51,7 @@ La colección está en `insomnia/Minecraft.yaml`.
      respuesta** a `creeper_id`, `player_id`, `zombie_id` y `otro_creeper_id` del entorno.
    - `05`-`08`: listar, leer por id, actualizar y volver a leer (el cambio persiste).
    - `09`-`11`: POST y PUT ilegales responden `400`; el listado posterior muestra que la
-     colección no creció y el creeper no cambio.
+     colección no creció y el creeper no cambió.
    - `12`-`13`: GET y DELETE de un id inexistente (`404`).
    - `14`-`16`: endpoints del protocolo (`/sonidos`, `/ui`) y consulta propia del repositorio.
    - `17`-`25`: cada error de la simulación; ninguno modifica la base.
@@ -130,7 +130,7 @@ POST /entidades/{id}/explotar
 
 `ExplosionService` valida el origen y todos los objetivos antes de aplicar la explosión. Un Creeper vivo explota una sola vez y termina con vida 0. Cada Player o Zombie situado a tres bloques o menos pierde hasta diez puntos de vida. Fuera del radio conserva su vida. JPA guarda todos los cambios en una transacción.
 
-Es una simulación simplificada: no reproduce la formula de Minecraft, la distancia la
+Es una simulación simplificada: no reproduce la fórmula de Minecraft, la distancia la
 informa el cliente y el daño fijo no depende de `danoBase`.
 
 ```bash
@@ -140,7 +140,7 @@ curl -i -X POST http://localhost:8080/entidades/1/explotar \
 ```
 
 La respuesta `200` contiene `creeperId`, `vidaCreeper` y `afectados` con `id`, `tipo`,
-`danoRecibido` y `vidaFinal`. `danoRecibido` es la perdida efectiva de vida (puede ser
+`danoRecibido` y `vidaFinal`. `danoRecibido` es la pérdida efectiva de vida (puede ser
 menor a 10). Fuera de 3 bloques no hay daño, pero el creeper igualmente explota.
 Un `GET /entidades/{id}` posterior muestra el estado ya persistido.
 
@@ -193,7 +193,7 @@ clase. Java elige la implementación del objeto en tiempo de ejecución.
 ```
 
 La imagen es un identificador textual. Cada objeto guarda sus coordenadas privadas e
-inmutables `x`, `y`, `z` y devuelve la posicion como texto. `Cerdo` satisface
+inmutables `x`, `y`, `z` y devuelve la posición como texto. `Cerdo` satisface
 `getVelocidad()` con el método heredado de `Entidad` y `BloqueMusical` devuelve `0`.
 
 ## Endpoints de ejercicios anteriores
@@ -215,7 +215,7 @@ Un valor inválido (por ejemplo `vida=0`) devuelve `400` con `{"error": "<mensaj
 - `Player`: explora el mundo y combate a las entidades.
 - `Zombie`: persigue y ataca al jugador si es hostil; de lo contrario, deambula sin atacar.
 - `Creeper`: explota cerca de otras entidades; después de explotar describe que ya explotó.
-- `Aldeano`: comercia con el jugador si tiene comercializacion habilitada.
+- `Aldeano`: comercia con el jugador si tiene la comercialización habilitada.
 - `Cerdo`: puede ser montado si tiene esa capacidad habilitada.
 - `Esqueleto`: ataca con arco o cuerpo a cuerpo según su configuración.
 - `ZombiePequeño`: hereda el comportamiento del `Zombie` y agrega una velocidad aumentada.
@@ -224,7 +224,7 @@ Un valor inválido (por ejemplo `vida=0`) devuelve `400` con `{"error": "<mensaj
 
 **Sobreescritura (override)**: `Entidad` declara `describirComportamiento()` como abstracto y
 `Player`, `Zombie`, `Creeper`, `Cerdo`, `Aldeano` y `Esqueleto` lo reimplementan con
-`@Override`, con la misma firma. Java elige la version según la clase real del objeto, en
+`@Override`, con la misma firma. Java elige la versión según la clase real del objeto, en
 tiempo de ejecución. `Cerdo` y `BloqueMusical` también sobreescriben `emitirSonido()` y los
 métodos de `UICapable` al implementar la interfaz.
 
@@ -465,7 +465,7 @@ quedan en `NULL` para las subclases que no las usan. En el JSON, el subtipo se d
 por el campo `tipo` (ver "Subtipo en el JSON").
 
 **Interfaz y repositorio.** `EntidadRepository` es una interfaz: el servicio depende del
-contrato (`save`, `findById`, `findByVidaGreaterThan`...) y no de como se guarda. Spring Data
+contrato (`save`, `findById`, `findByVidaGreaterThan`...) y no de cómo se guarda. Spring Data
 genera la implementación. Es la misma idea que `Sonoro` en POO-07: quien llama habla con el
 tipo de la interfaz y la implementación concreta puede cambiar sin tocarlo.
 
@@ -517,7 +517,7 @@ Los servicios controlan las escrituras del CRUD y de la simulación. Los método
 
 - `EntidadCrudTests`: ciclo CRUD con persistencia, `tipo` en el JSON, rechazo de datos
   inválidos y consultas propias del repositorio.
-- `ExplosionTests`: limites del radio, muerte, errores sin cambios parciales, persistencia
+- `ExplosionTests`: límites del radio, muerte, errores sin cambios parciales, persistencia
   y CRUD de Creeper.
 - `SonidoControllerTests` y `UIControllerTests`: el protocolo responde sobre ambas familias.
 - `EntidadControllerTests` y `ComportamientoControllerTests`: endpoints de POO-06.

@@ -91,14 +91,14 @@ class ExplosionTests {
         player.registrarVida(0);
         repository.save(player);
         explotar(creeper.getId(), objetivo(player.getId(), 1)).andExpect(status().isConflict())
-                .andExpect(jsonPath("$.error").value("El objetivo esta muerto: " + player.getId()));
+                .andExpect(jsonPath("$.error").value("El objetivo está muerto: " + player.getId()));
         explotar(creeper.getId(), "").andExpect(status().isBadRequest());
         explotar(creeper.getId(), "null").andExpect(status().isBadRequest());
         explotar(creeper.getId(), "{\"id\":" + player.getId() + "}").andExpect(status().isBadRequest());
         creeper.registrarVida(0);
         repository.save(creeper);
         explotar(creeper.getId(), objetivo(player.getId(), 1)).andExpect(status().isConflict())
-                .andExpect(jsonPath("$.error").value("El creeper esta muerto"));
+                .andExpect(jsonPath("$.error").value("El creeper está muerto"));
     }
 
     @Test

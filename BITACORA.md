@@ -1,4 +1,4 @@
-# Bitacora de asistencia de IA
+# Bitácora de asistencia de IA
 
 **Asignatura:** Lenguaje de Programación 3 (CYT646)
 **Estudiante:** Mateo (GitHub: MatRF04)
@@ -11,11 +11,11 @@
 - **Asistente:** Codex (OpenAI)
 - **Modelo:** GPT-6 Astra
 - **Resumen de prompts:**
-  - Pedi un CRUD REST para Entidad con arquitectura de tres capas, un service con
+  - Pedí un CRUD REST para Entidad con arquitectura de tres capas, un service con
     validaciones y persistencia en H2 con Spring Data.
-  - Pedi un comando curl para probar cada operación del CRUD.
-  - Consulte la configuración de H2 en application.properties y el acceso a la consola.
-- **Que hizo la IA:** EntidadController, EntidadService, EntidadRepository, EntidadRequest,
+  - Pedí un comando curl para probar cada operación del CRUD.
+  - Consulté la configuración de H2 en application.properties y el acceso a la consola.
+- **Qué hizo la IA:** EntidadController, EntidadService, EntidadRepository, EntidadRequest,
   el mapeo JPA de Entidad y sus hijas, y la configuración de H2.
 
 ### Explosiones (2026-10-29)
@@ -24,60 +24,88 @@
 - **Modelo:** GPT-6 Astra (OpenAI)
 - **Pedido:** implementar una simulación REST con Creeper, Player y Zombie, conservando
   CRUD y H2, dos reglas, excepciones con handlers y colección de Insomnia.
-- **Que hizo la IA:** Creeper persistente, daño limitado por la vida, servicio transaccional,
-  endpoint de explosion, jerarquía de errores, pruebas de integracion y documentacion.
+- **Qué hizo la IA:** Creeper persistente, daño limitado por la vida, servicio transaccional,
+  endpoint de explosión, jerarquía de errores, pruebas de integración y documentación.
 - La simulación usa daño fijo de 10 hasta 3 bloques y distancias proporcionadas por el
-  cliente; no implementa la formula exacta de Minecraft.
+  cliente; no implementa la fórmula exacta de Minecraft.
 
-### Revision contra el enunciado y la rubrica (2026-11-09)
+### Revisión contra el enunciado y la rúbrica (2026-11-09)
 
 - **Asistente:** Claude Code (Anthropic)
 - **Modelo:** Claude Opus 5.5 (`claude-opus-5-5`)
 
 #### Resumen de prompts
 
-1. Pedi revisar que tenia y que faltaba del proyecto según el enunciado de POO-08.
-2. Pedi contrastar ese plan con la rubrica antes de implementarlo.
-3. Pedi implementarlo y dejar las correcciones de POO-06 para el final.
+1. Pedí revisar qué tenía y qué faltaba del proyecto según el enunciado de POO-08.
+2. Pedí contrastar ese plan con la rúbrica antes de implementarlo.
+3. Pedí implementarlo y dejar las correcciones de POO-06 para el final.
 
-#### Que hizo la IA
+#### Qué hizo la IA
 
-- Movio las reglas de la explosion de `ExplosionService` a `Creeper.explotar(List<ObjetivoExplosion>)`,
+- Movió las reglas de la explosión de `ExplosionService` a `Creeper.explotar(List<ObjetivoExplosion>)`,
   para que el dominio lance cada hija de `ExplosionException`; el servicio solo carga y guarda.
-- Agrego `@JsonTypeInfo`/`@JsonSubTypes` en `Entidad` para que el JSON lleve `tipo`.
-- Agrego consultas propias al repositorio (`findByVidaGreaterThan`, `findCreepersListosParaExplotar`)
+- Agregó `@JsonTypeInfo`/`@JsonSubTypes` en `Entidad` para que el JSON lleve `tipo`.
+- Agregó consultas propias al repositorio (`findByVidaGreaterThan`, `findCreepersListosParaExplotar`)
   con sus endpoints y pruebas.
-- Movio `EntidadNoEncontradaException` a `domain.exception`.
-- Completo la colección de Insomnia (GET /, POST/PUT ilegales, 404 de GET y DELETE,
-  protocolo, GET posterior al DELETE) y la recorrio contra el servicio.
-- Reescribio el README (propiedades H2, Insomnia, respuestas a "Que hay que pensar",
-  diagramas) y escribió `ENTREGA_POO-08.md`.
+- Movió `EntidadNoEncontradaException` a `domain.exception`.
+- Completó la colección de Insomnia (GET /, POST/PUT ilegales, 404 de GET y DELETE,
+  protocolo, GET posterior al DELETE) y la recorrió contra el servicio.
+- Reescribió el README (propiedades H2, Insomnia, respuestas a "Qué hay que pensar",
+  diagramas) y escribió el documento de entrega de POO-08.
 
-### Que revise / decidi yo
+### Qué revisé / decidí yo
 
-- Elegi la regla de la simulación: la explosion del creeper, que muere al explotar y
-  dana a las entidades cercanas.
-- Los detalles de la implementación los propuso la IA y los acepte: el daño fijo de 10,
+- Elegí la regla de la simulación: la explosión del creeper, que muere al explotar y
+  daña a las entidades cercanas.
+- Los detalles de la implementación los propuso la IA y los acepté: el daño fijo de 10,
   el radio de 3 bloques, que solo afecte a Player y Zombie, que la distancia la informe
   el cliente, y que se validen todos los objetivos antes de aplicar daño.
-- Decidi terminar POO-08 primero y dejar las correcciones de POO-06 para el final.
-- Importe la colección en Insomnia, la recorri completa (los 36 pedidos respondieron el
-  código esperado) y la exporte desde la app.
+- Decidí terminar POO-08 primero y dejar las correcciones de POO-06 para el final.
+- Importé la colección en Insomnia, la recorrí completa (los 36 pedidos respondieron el
+  código esperado) y la exporté desde la app.
+
+### Corrección de POO-08 (2026-11-18)
+
+- **Asistente:** Codex (OpenAI)
+- **Modelo:** GPT-6
+- **Resumen de prompts:** pedí aplicar la devolución docente de POO-08.
+- **Qué hizo la IA:**
+  - Pasó las validaciones y las dos reglas de la explosión de `Creeper` y `Entidad` a
+    `EntidadService` y `ExplosionService`; el dominio ya no lanza excepciones.
+  - Hizo que `EntidadService` rechace con 409 cualquier actualización de una entidad muerta
+    o de un Creeper que ya explotó.
+  - Agregó una prueba HTTP que verifica que la muerte es definitiva y los pedidos 30a–30d
+    de Insomnia.
+  - Actualizó el README y la respuesta a "¿Quién lanza la excepción?".
+
+### Revisión de la corrección y ortografía (2026-11-22)
+
+- **Asistente:** Claude Code (Anthropic)
+- **Modelo:** Claude Opus 5.5 (`claude-opus-5-5`)
+- **Resumen de prompts:**
+  1. Pregunté si la branch de corrección de POO-08 estaba completa.
+  2. Pasé la devolución del profesor y pedí compararla con la branch.
+  3. Pedí eliminar los documentos de entregas anteriores y aplicar los arreglos pendientes.
+- **Qué hizo la IA:** comparó la branch con cada criterio de la devolución, corrió las
+  pruebas, eliminó los documentos de entrega de POO-06 y POO-08 y corrigió las tildes del
+  README, de esta bitácora, del Javadoc y de los mensajes de error (con sus pruebas).
+- **Qué decidí yo:** no volver a presentar la entrega de POO-08, eliminar los documentos de
+  entregas anteriores y conservar `HELP.md`.
 
 ## Ejercicio POO-07 — Protocolo Sonoro / UICapable
 
 - **Asistente:** OpenCode
 - **Modelo:** GPT-6 Astra (OpenAI)
-- **Resumen de prompts:** no conserve los prompts originales; de memoria, le pedi a
+- **Resumen de prompts:** no conservé los prompts originales; de memoria, le pedí a
   OpenCode crear una interfaz para que el Cerdo y un bloque musical emitan sonido,
-  un endpoint que los liste a traves de la interfaz, y después ampliarla con imagen,
-  posicion y velocidad para la UI.
-- **Que decidi yo:** elegi el protocolo Sonoro con el Cerdo (Entidad) y el bloque
+  un endpoint que los liste a través de la interfaz, y después ampliarla con imagen,
+  posición y velocidad para la UI.
+- **Qué decidí yo:** elegí el protocolo Sonoro con el Cerdo (Entidad) y el bloque
   musical (Bloque), dos familias distintas que emiten sonido.
-- **Que hizo la IA:** implemento las interfaces Sonoro y UICapable, las clases Bloque y
+- **Qué hizo la IA:** implementó las interfaces Sonoro y UICapable, las clases Bloque y
   BloqueMusical, los endpoints /sonidos y /ui y sus pruebas.
 
-## Ejercicio POO-06 — Revision, paquetes, constructores y sobrecarga
+## Ejercicio POO-06 — Revisión, paquetes, constructores y sobrecarga
 
 ### Uso de IA
 
@@ -86,35 +114,31 @@
 
 #### Resumen de prompts
 
-1. Pedi revisar el enunciado del ejercicio y la rubrica y analizar el proyecto para saber que faltaba.
-2. Pedi implementar: sobrecarga de un mensaje del dominio, manejo de errores de validación en
-   el controller, actualizacion del README y creación de esta bitacora.
-3. Pedi como construir las dos hijas desde la URL (punto 5) y que lo implementara, con
-   tests y la documentacion actualizada.
-4. Pedi reescribir `ENTREGA_CLASSROOM.md` para este ejercicio e incluir el hash del commit.
+1. Pedí revisar el enunciado del ejercicio y la rúbrica y analizar el proyecto para saber qué faltaba.
+2. Pedí implementar: sobrecarga de un mensaje del dominio, manejo de errores de validación en
+   el controller, actualización del README y creación de esta bitácora.
+3. Pedí cómo construir las dos hijas desde la URL (punto 5) y que lo implementara, con
+   tests y la documentación actualizada.
+4. Pedí reescribir el documento de entrega para este ejercicio e incluir el hash del commit.
 
-#### Que hizo la IA
+#### Qué hizo la IA
 
-- Agrego `Esqueleto.disparar()` y `Esqueleto.disparar(int distancia)` (sobrecarga).
-- Agrego `GET /entidades/esqueleto/disparar` y un `@ExceptionHandler` que responde 400 con el
+- Agregó `Esqueleto.disparar()` y `Esqueleto.disparar(int distancia)` (sobrecarga).
+- Agregó `GET /entidades/esqueleto/disparar` y un `@ExceptionHandler` que responde 400 con el
   mensaje de la excepción de dominio.
-- Cambio `ComportamientoController` para construir `Zombie` y `Aldeano` con parámetros de la
+- Cambió `ComportamientoController` para construir `Zombie` y `Aldeano` con parámetros de la
   URL (`GET /entidades/comportamientos?vida=..&danoBase=..&velocidad=..&hostilidad=..&comercializacion=..`),
   guardarlos en una `List<Entidad>` y devolver `describirComportamiento()` de cada uno sin
   condicionales por tipo.
-- Movio el manejo del 400 a `ErrorController` (`@RestControllerAdvice`), para que cubra todos
+- Movió el manejo del 400 a `ErrorController` (`@RestControllerAdvice`), para que cubra todos
   los endpoints.
-- Agrego `ComportamientoControllerTests` (2 pruebas).
-- Agrego `EntidadControllerTests` (3 pruebas) y ejecuto todas (6 en total) con `./mvnw test`.
-- Reescribio `ENTREGA_CLASSROOM.md` (objetivo, consignas, como probar, pregunta de anclaje).
-- Actualizo el README (endpoints, apartado de sobrecarga/sobreescritura, diagrama).
+- Agregó `ComportamientoControllerTests` (2 pruebas).
+- Agregó `EntidadControllerTests` (3 pruebas) y ejecutó todas (6 en total) con `./mvnw test`.
+- Reescribió el documento de entrega (objetivo, consignas, cómo probar, pregunta de anclaje).
+- Actualizó el README (endpoints, apartado de sobrecarga/sobreescritura, diagrama).
 
-#### Que revise / decidi yo
+#### Qué revisé / decidí yo
 
 - Las reglas de validación siguen en `Entidad`; el controller no corrige valores.
 - Los atributos siguen privados y sin setters, por lo que el controller no puede asignar
-  vida o municion a mano.
-
-## Corrección de POO-08
-
-Con Codex (GPT-6) se aplicó la devolución docente. Las validaciones pasaron a los servicios y se incorporaron pruebas HTTP para verificar que la muerte sea definitiva.
+  vida o munición a mano.

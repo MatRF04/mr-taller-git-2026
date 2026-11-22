@@ -68,7 +68,7 @@ public class ExplosionService {
                 throw new TipoEntidadInvalidoException("El objetivo debe ser Player o Zombie");
             }
             if (!entidad.estaViva()) {
-                throw new EntidadMuertaException("El objetivo esta muerto: " + entidad.getId());
+                throw new EntidadMuertaException("El objetivo está muerto: " + entidad.getId());
             }
         }
         creeper.registrarExplosion();
@@ -89,7 +89,7 @@ public class ExplosionService {
 
     private void validarPuedeExplotar(Creeper creeper) {
         if (creeper.isYaExploto()) throw new CreeperYaExplotoException("El creeper ya explotó");
-        if (!creeper.estaViva()) throw new EntidadMuertaException("El creeper esta muerto");
+        if (!creeper.estaViva()) throw new EntidadMuertaException("El creeper está muerto");
     }
 
     private static void validarDistancia(Integer distancia) {
