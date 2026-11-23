@@ -41,6 +41,31 @@ public class ErrorController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", e.getMessage()));
     }
 
+    @ExceptionHandler(RechazoA2Exception.class)
+    public ResponseEntity<Map<String, Object>> rechazoA2(RechazoA2Exception e) {
+        return rechazo(e);
+    }
+
+    @ExceptionHandler(RechazoA3Exception.class)
+    public ResponseEntity<Map<String, Object>> rechazoA3(RechazoA3Exception e) {
+        return rechazo(e);
+    }
+
+    @ExceptionHandler(CompaneroNoDisponibleException.class)
+    public ResponseEntity<Map<String, String>> companeroNoDisponible(CompaneroNoDisponibleException e) {
+        return ResponseEntity.status(HttpStatus.BAD_GATEWAY)
+                .body(Map.of("error", e.getMessage(), "servicio", e.getCompanero()));
+    }
+
+    /** 422: el pedido llegó bien, pero la regla de un compañero no lo permite. */
+    private static ResponseEntity<Map<String, Object>> rechazo(RechazoCompaneroException e) {
+        return ResponseEntity.status(422).body(Map.of(
+                "error", e.getMessage(),
+                "rechazadoPor", e.getCompanero(),
+                "estadoRemoto", e.getEstadoRemoto(),
+                "detalleRemoto", e.getDetalleRemoto()));
+    }
+
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<Map<String, String>> valorInvalido(IllegalArgumentException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
