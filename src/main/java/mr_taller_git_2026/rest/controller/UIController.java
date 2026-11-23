@@ -1,5 +1,7 @@
 package mr_taller_git_2026.rest.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import java.util.Map;
 
@@ -9,9 +11,11 @@ import mr_taller_git_2026.domain.UICapable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "Interfaz")
 @RestController
 public class UIController {
 
+    @Operation(summary = "Consultar los atributos visuales y sonoros de los objetos")
     @GetMapping("/ui")
     public List<Map<String, Object>> ui() {
         List<UICapable> objetos = List.of(

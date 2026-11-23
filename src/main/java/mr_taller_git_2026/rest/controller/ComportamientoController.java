@@ -1,5 +1,7 @@
 package mr_taller_git_2026.rest.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import mr_taller_git_2026.service.EntidadService;
 import java.util.Map;
@@ -11,9 +13,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "Comportamientos")
 @RestController
 public class ComportamientoController {
 
+    @Operation(summary = "Consultar el comportamiento de un zombie y un aldeano")
     @GetMapping("/entidades/comportamientos")
     public List<Map<String, Object>> comportamientos(
             @RequestParam int vida,

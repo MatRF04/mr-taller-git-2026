@@ -13,6 +13,10 @@ jugadores y zombies (ejercicio POO-08).
 La aplicación queda disponible en `http://localhost:8080`. `GET /` responde
 `API de Minecraft de Mateo. Servicio funcionando.`
 
+## Documentación de la API
+
+Con la aplicación en ejecución, podés explorar y probar los endpoints en [Swagger UI](http://localhost:8080/swagger-ui.html). La especificación está disponible en [formato JSON](http://localhost:8080/v3/api-docs).
+
 ## Configuración de H2
 
 `src/main/resources/application.properties`:
