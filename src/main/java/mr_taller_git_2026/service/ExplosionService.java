@@ -87,7 +87,7 @@ public class ExplosionService {
         return distancia <= RADIO_EXPLOSION ? Math.max(0, vida - DANO_EXPLOSION) : vida;
     }
 
-    private void validarPuedeExplotar(Creeper creeper) {
+    void validarPuedeExplotar(Creeper creeper) {
         if (creeper.isYaExploto()) throw new CreeperYaExplotoException("El creeper ya explotó");
         if (!creeper.estaViva()) throw new EntidadMuertaException("El creeper está muerto");
     }

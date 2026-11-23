@@ -41,6 +41,11 @@ public class ErrorController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", e.getMessage()));
     }
 
+    @ExceptionHandler(JugadaNoEncontradaException.class)
+    public ResponseEntity<Map<String, String>> jugadaNoEncontrada(JugadaNoEncontradaException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", e.getMessage()));
+    }
+
     @ExceptionHandler(RechazoA2Exception.class)
     public ResponseEntity<Map<String, Object>> rechazoA2(RechazoA2Exception e) {
         return rechazo(e);

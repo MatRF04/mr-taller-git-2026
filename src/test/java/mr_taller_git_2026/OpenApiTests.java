@@ -49,6 +49,17 @@ class OpenApiTests {
     }
 
     @Test
+    void documentaElEscenarioConLosRechazosDeLosCompaneros() throws Exception {
+        var documento = mvc.perform(get("/v3/api-docs")).andExpect(status().isOk())
+                .andExpect(jsonPath("$.paths['/jugadas'].post.description").isString())
+                .andExpect(jsonPath("$.paths['/jugadas'].get.summary").isString())
+                .andExpect(jsonPath("$.paths['/jugadas/{id}'].get.responses['404']").exists());
+        for (String codigo : List.of("201", "400", "404", "409", "422", "502")) {
+            documento.andExpect(jsonPath("$.paths['/jugadas'].post.responses['" + codigo + "']").exists());
+        }
+    }
+
+    @Test
     void publicaSwaggerUiConLaEspecificacionLocal() throws Exception {
         mvc.perform(get("/swagger-ui.html")).andExpect(status().is3xxRedirection());
         mvc.perform(get("/swagger-ui/index.html")).andExpect(status().isOk());
