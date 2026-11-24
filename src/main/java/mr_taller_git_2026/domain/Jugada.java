@@ -7,9 +7,9 @@ import jakarta.persistence.Id;
 import java.time.Instant;
 
 /**
- * Explosión en cadena aceptada por A2 y A3: el Creeper local explota, alcanza al jugador que
- * validó A2 y detona la TNT de A3 sobre su objetivo. Solo guarda el resultado; las reglas
- * las aplica {@code EscenarioService}.
+ * Explosión en cadena aceptada por A2 y A3: el Creeper local explota en el origen, alcanza al
+ * jugador que validó A2 y detona una TNT que daña a la entidad de A3. Solo guarda el resultado;
+ * las reglas las aplica {@code EscenarioService}.
  */
 @Entity
 public class Jugada {
@@ -22,30 +22,28 @@ public class Jugada {
     private int saludJugadorAntes;
     private int danoCreeper;
     private int saludJugadorDespues;
-    private String tntA3;
-    private String objetivoA3;
-    private int saludObjetivoAntes;
+    private String entidadA3;
+    private int saludEntidadAntes;
     private int danoTnt;
-    private int saludObjetivoDespues;
+    private int saludEntidadDespues;
     private Instant registradaEn;
 
     protected Jugada() {
     }
 
     public Jugada(Long creeperId, String jugadorA2, double distanciaJugador, int saludJugadorAntes,
-            int danoCreeper, int saludJugadorDespues, String tntA3, String objetivoA3,
-            int saludObjetivoAntes, int danoTnt, int saludObjetivoDespues, Instant registradaEn) {
+            int danoCreeper, int saludJugadorDespues, String entidadA3, int saludEntidadAntes,
+            int danoTnt, int saludEntidadDespues, Instant registradaEn) {
         this.creeperId = creeperId;
         this.jugadorA2 = jugadorA2;
         this.distanciaJugador = distanciaJugador;
         this.saludJugadorAntes = saludJugadorAntes;
         this.danoCreeper = danoCreeper;
         this.saludJugadorDespues = saludJugadorDespues;
-        this.tntA3 = tntA3;
-        this.objetivoA3 = objetivoA3;
-        this.saludObjetivoAntes = saludObjetivoAntes;
+        this.entidadA3 = entidadA3;
+        this.saludEntidadAntes = saludEntidadAntes;
         this.danoTnt = danoTnt;
-        this.saludObjetivoDespues = saludObjetivoDespues;
+        this.saludEntidadDespues = saludEntidadDespues;
         this.registradaEn = registradaEn;
     }
 
@@ -56,10 +54,9 @@ public class Jugada {
     public int getSaludJugadorAntes() { return saludJugadorAntes; }
     public int getDanoCreeper() { return danoCreeper; }
     public int getSaludJugadorDespues() { return saludJugadorDespues; }
-    public String getTntA3() { return tntA3; }
-    public String getObjetivoA3() { return objetivoA3; }
-    public int getSaludObjetivoAntes() { return saludObjetivoAntes; }
+    public String getEntidadA3() { return entidadA3; }
+    public int getSaludEntidadAntes() { return saludEntidadAntes; }
     public int getDanoTnt() { return danoTnt; }
-    public int getSaludObjetivoDespues() { return saludObjetivoDespues; }
+    public int getSaludEntidadDespues() { return saludEntidadDespues; }
     public Instant getRegistradaEn() { return registradaEn; }
 }

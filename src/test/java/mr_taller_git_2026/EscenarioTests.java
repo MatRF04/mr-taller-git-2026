@@ -19,7 +19,7 @@ import mr_taller_git_2026.domain.exception.RechazoA3Exception;
 import mr_taller_git_2026.repository.EntidadRepository;
 import mr_taller_git_2026.repository.JugadaRepository;
 import mr_taller_git_2026.service.cliente.ClienteLucas;
-import mr_taller_git_2026.service.cliente.ClienteLucas.SimulacionTntA3;
+import mr_taller_git_2026.service.cliente.ClienteLucas.ExplosionTntA3;
 import mr_taller_git_2026.service.cliente.ClienteSantiago;
 import mr_taller_git_2026.service.cliente.ClienteSantiago.JugadorA2;
 import org.junit.jupiter.api.BeforeEach;
@@ -53,7 +53,7 @@ class EscenarioTests {
         return mvc.perform(post("/jugadas").contentType(MediaType.APPLICATION_JSON).content("""
                 {"creeperId":%d,
                  "jugadorA2":{"id":"Steve","saludMaxima":20,"x":2,"y":0,"z":0},
-                 "tntA3":{"tntId":"tnt-1","objetivoId":"jugador1"}}
+                 "entidadA3":{"id":"jugador1"}}
                 """.formatted(creeperId)));
     }
 
@@ -65,7 +65,7 @@ class EscenarioTests {
     void siA2YA3AceptanLaJugadaSeGuardaYSePuedeLeer() throws Exception {
         var creeper = entidades.save(new Creeper(20, 5, 3));
         when(a2.obtenerJugador("Steve", 20, 2.0, 0.0, 0.0)).thenReturn(new JugadorA2("Steve", 20, 20, 2, 0, 0));
-        when(a3.simularTnt("jugador1", "tnt-1")).thenReturn(new SimulacionTntA3("jugador1", "tnt-1", 20, 12, 8));
+        when(a3.explotarTnt("jugador1", 0, 0, 0)).thenReturn(new ExplosionTntA3("jugador1", 20, 12, 8));
 
         String ubicacion = jugar(creeper.getId()).andExpect(status().isCreated())
                 .andExpect(jsonPath("$.jugadorA2").value("Steve"))
@@ -77,7 +77,8 @@ class EscenarioTests {
 
         mvc.perform(get(ubicacion)).andExpect(status().isOk())
                 .andExpect(jsonPath("$.creeperId").value(creeper.getId()))
-                .andExpect(jsonPath("$.tntA3").value("tnt-1"));
+                .andExpect(jsonPath("$.entidadA3").value("jugador1"))
+                .andExpect(jsonPath("$.saludEntidadDespues").value(12));
         assertTrue(exploto(creeper.getId()));
         jugar(creeper.getId()).andExpect(status().isConflict());
     }
@@ -95,7 +96,7 @@ class EscenarioTests {
 
         assertEquals(0, jugadas.count());
         assertFalse(exploto(creeper.getId()));
-        verify(a3, never()).simularTnt(any(), any());
+        verify(a3, never()).explotarTnt(any(), anyDouble(), anyDouble(), anyDouble());
     }
 
     @Test
@@ -103,7 +104,7 @@ class EscenarioTests {
         var creeper = entidades.save(new Creeper(20, 5, 3));
         when(a2.obtenerJugador(anyString(), anyInt(), anyDouble(), anyDouble(), anyDouble()))
                 .thenReturn(new JugadorA2("Steve", 20, 20, 2, 0, 0));
-        when(a3.simularTnt(anyString(), anyString()))
+        when(a3.explotarTnt(anyString(), anyDouble(), anyDouble(), anyDouble()))
                 .thenThrow(new RechazoA3Exception(A3, 409, "{\"error\":\"El objetivo no tiene vida\"}", null));
 
         jugar(creeper.getId()).andExpect(status().isUnprocessableContent())
@@ -120,7 +121,7 @@ class EscenarioTests {
         var creeper = entidades.save(new Creeper(20, 5, 3));
         when(a2.obtenerJugador(anyString(), anyInt(), anyDouble(), anyDouble(), anyDouble()))
                 .thenReturn(new JugadorA2("Steve", 20, 20, 2, 0, 0));
-        when(a3.simularTnt(anyString(), anyString()))
+        when(a3.explotarTnt(anyString(), anyDouble(), anyDouble(), anyDouble()))
                 .thenThrow(new CompaneroNoDisponibleException(A3, "No se pudo consultar a " + A3, null));
 
         jugar(creeper.getId()).andExpect(status().isBadGateway())

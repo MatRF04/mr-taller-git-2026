@@ -60,18 +60,19 @@ class ClientesCompanerosTests {
     }
 
     @Test
-    void a3SimulaLaTntConElCuerpoDeSuOpenApi() {
+    void a3AplicaLaTntConLaPosicionDeLaExplosion() {
         var pedido = new AtomicReference<ClientRequest>();
         var a3 = new ClienteLucas(responde(HttpStatus.OK, """
                 {"id":"jugador1","saludAnterior":20,"saludActual":12,"danoAplicado":8,"radio":4.0}
                 """, pedido), "http://a3", "Lucas Fadul");
 
-        var simulacion = a3.simularTnt("jugador1", "tnt-1");
+        var explosion = a3.explotarTnt("jugador1", 0, 0, 0);
 
         assertEquals(HttpMethod.POST, pedido.get().method());
         assertEquals("/api/entidades/jugador1/explosiones", pedido.get().url().getPath());
-        assertEquals(8, simulacion.danoAplicado());
-        assertEquals(12, simulacion.saludActual());
+        assertEquals("jugador1", explosion.entidadId());
+        assertEquals(8, explosion.danoAplicado());
+        assertEquals(12, explosion.saludActual());
     }
 
     @Test
@@ -79,7 +80,7 @@ class ClientesCompanerosTests {
         var a3 = new ClienteLucas(responde(HttpStatus.CONFLICT, "{\"error\":\"El objetivo no tiene vida\"}",
                 new AtomicReference<>()), "http://a3", "Lucas Fadul");
 
-        var rechazo = assertThrows(RechazoA3Exception.class, () -> a3.simularTnt("muerto", "tnt-1"));
+        var rechazo = assertThrows(RechazoA3Exception.class, () -> a3.explotarTnt("rechazo-mateo", 0, 0, 0));
 
         assertEquals("A3 (Lucas Fadul)", rechazo.getCompanero());
         assertEquals(409, rechazo.getEstadoRemoto());
@@ -90,7 +91,7 @@ class ClientesCompanerosTests {
         var a3 = new ClienteLucas(responde(HttpStatus.INTERNAL_SERVER_ERROR, "{}", new AtomicReference<>()),
                 "http://a3", "Lucas Fadul");
 
-        var caida = assertThrows(CompaneroNoDisponibleException.class, () -> a3.simularTnt("jugador1", "tnt-1"));
+        var caida = assertThrows(CompaneroNoDisponibleException.class, () -> a3.explotarTnt("jugador1", 0, 0, 0));
 
         assertEquals("A3 (Lucas Fadul)", caida.getCompanero());
     }

@@ -8,9 +8,13 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
 /**
- * A3: servicio de Lucas Fadul. Según su OpenAPI, {@code POST /api/entidades/{id}/explosiones}
- * simula su regla: una TNT causa hasta 8 de daño dentro de 4 bloques y fuera del radio no daña.
- * Responde 404 si la TNT o el objetivo no existen y 409 si el objetivo no tiene vida.
+ * A3: servicio de Lucas Fadul. {@code POST /api/entidades/{id}/explosiones} con
+ * {@code {"posicion": {x, y, z}}} aplica su regla: una TNT causa hasta 8 de daño a una entidad
+ * viva dentro de 4 bloques, y fuera del radio no daña. Responde 404 si la entidad no existe y
+ * 409 si no tiene vida.
+ *
+ * <p>Esta llamada <b>modifica la base de A3</b> (guarda la nueva salud de su entidad); por eso el
+ * escenario la hace al final, cuando las demás validaciones ya aceptaron.
  */
 @Component
 public class ClienteLucas extends ClienteCompanero {
@@ -20,18 +24,18 @@ public class ClienteLucas extends ClienteCompanero {
         super(builder, url, "A3 (" + nombre + ")");
     }
 
-    public SimulacionTntA3 simularTnt(String objetivoId, String tntId) {
-        Simulacion simulacion = esperar(cliente.post()
-                .uri("/api/entidades/{id}/explosiones", objetivoId)
-                .bodyValue(Map.of("tntId", tntId, "objetivoId", objetivoId))
+    public ExplosionTntA3 explotarTnt(String entidadId, double x, double y, double z) {
+        Explosion explosion = esperar(cliente.post()
+                .uri("/api/entidades/{id}/explosiones", entidadId)
+                .bodyValue(Map.of("posicion", Map.of("x", x, "y", y, "z", z)))
                 .retrieve()
-                .bodyToMono(Simulacion.class));
-        if (simulacion.saludAnterior() == null || simulacion.saludActual() == null
-                || simulacion.danoAplicado() == null) {
-            throw noDisponible(getCompanero() + " devolvió una simulación incompleta", null);
+                .bodyToMono(Explosion.class));
+        if (explosion.saludAnterior() == null || explosion.saludActual() == null
+                || explosion.danoAplicado() == null) {
+            throw noDisponible(getCompanero() + " devolvió una explosión incompleta", null);
         }
-        return new SimulacionTntA3(objetivoId, tntId, simulacion.saludAnterior(),
-                simulacion.saludActual(), simulacion.danoAplicado());
+        return new ExplosionTntA3(entidadId, explosion.saludAnterior(), explosion.saludActual(),
+                explosion.danoAplicado());
     }
 
     @Override
@@ -39,9 +43,8 @@ public class ClienteLucas extends ClienteCompanero {
         return new RechazoA3Exception(getCompanero(), estado, detalle, causa);
     }
 
-    /** Resultado de la regla de A3 sobre su objetivo. */
-    public record SimulacionTntA3(String objetivoId, String tntId, int saludAnterior, int saludActual,
-            int danoAplicado) {}
+    /** Resultado de la regla de A3 sobre su entidad. */
+    public record ExplosionTntA3(String entidadId, int saludAnterior, int saludActual, int danoAplicado) {}
 
-    private record Simulacion(Integer saludAnterior, Integer saludActual, Integer danoAplicado) {}
+    private record Explosion(Integer saludAnterior, Integer saludActual, Integer danoAplicado) {}
 }
