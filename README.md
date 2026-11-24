@@ -125,12 +125,12 @@ Cada uno en su máquina, conectada a la red de Hamachi TPLP3. Primero A2 y A3, d
 ```bash
 # A2: Santiago
 git clone https://github.com/SaDez7/sb-taller-git-2026.git && cd sb-taller-git-2026
-git checkout 1853e52
+git checkout a5d8a273e1a484458891bf5697cb0cd3c5024fa2
 ./mvnw spring-boot:run
 
 # A3: Lucas
 git clone https://github.com/LucasFadul/lfadul-tp-lp3-2026.git && cd lfadul-tp-lp3-2026
-git checkout 692c1fa
+git checkout a5819ea5dea43054d700ee87be5d502f21336748
 ./mvnw spring-boot:run
 
 # A1: Mateo
@@ -138,8 +138,11 @@ git clone https://github.com/MatRF04/mr-taller-git-2026.git && cd mr-taller-git-
 ./mvnw spring-boot:run
 ```
 
-`1853e52` y `692c1fa` son los últimos commits que Santiago y Lucas publicaron al escribir este
-README; para la corrección vale el commit que cada uno entrega en su POO-09.
+Son los commits que Santiago
+([a5d8a27](https://github.com/SaDez7/sb-taller-git-2026/commit/a5d8a273e1a484458891bf5697cb0cd3c5024fa2))
+y Lucas
+([a5819ea](https://github.com/LucasFadul/lfadul-tp-lp3-2026/commit/a5819ea5dea43054d700ee87be5d502f21336748))
+entregan en su POO-09.
 
 Las URLs de A2 y A3 están en `src/main/resources/application.properties`
 (`companeros.a2.url` y `companeros.a3.url`). Si cambian, no hace falta tocar el código:
