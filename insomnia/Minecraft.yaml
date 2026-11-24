@@ -863,6 +863,300 @@ collection:
         send: true
         store: true
       rebuildPath: true
+  - url: "{{ _.base_url }}/v3/api-docs"
+    name: "40 POO-09 OpenAPI propio - 200"
+    meta:
+      id: req_4ff19f9205494e40983b559d724acda8
+      created: 1795900000001
+      modified: 1795900000001
+      isPrivate: false
+      description: ""
+      sortKey: 40
+    method: GET
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.a2_url }}/v3/api-docs"
+    name: "41 POO-09 OpenAPI de A2 (Santiago) - 200"
+    meta:
+      id: req_ebaa5c2b8c714e269e59f32cd79acb3d
+      created: 1795900000002
+      modified: 1795900000002
+      isPrivate: false
+      description: ""
+      sortKey: 41
+    method: GET
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.a3_url }}/v3/api-docs"
+    name: "42 POO-09 OpenAPI de A3 (Lucas) - 200"
+    meta:
+      id: req_f52742689b4f4881934138313293fd12
+      created: 1795900000003
+      modified: 1795900000003
+      isPrivate: false
+      description: ""
+      sortKey: 42
+    method: GET
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/entidades"
+    name: "43 POO-09 Crear Creeper del escenario - 201 (copiar id a p09_creeper_id)"
+    meta:
+      id: req_e1040b73c3834e1cabdb024c9abce2cd
+      created: 1795900000004
+      modified: 1795900000004
+      isPrivate: false
+      description: ""
+      sortKey: 43
+    method: POST
+    body:
+      mimeType: application/json
+      text: "{\"tipo\":\"Creeper\",\"vida\":20,\"danoBase\":5,\"velocidad\":3}"
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.a3_url }}/api/entidades"
+    name: "44 POO-09 Preparar en A3 una entidad viva en el origen - 201"
+    meta:
+      id: req_3921e2d3042f43b98e254572ecc5e512
+      created: 1795900000005
+      modified: 1795900000005
+      isPrivate: false
+      description: "Si el id ya existe en la base de A3, cambiar entidad_a3_id en el entorno."
+      sortKey: 44
+    method: POST
+    body:
+      mimeType: application/json
+      text: "{\"id\":\"{{ _.entidad_a3_id }}\",\"tipo\":\"CERDO\",\"saludMaxima\":20,\"salud\":20,\"posicion\":{\"x\":0,\"y\":0,\"z\":0}}"
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.a3_url }}/api/entidades"
+    name: "45 POO-09 Preparar en A3 una entidad con salud 0 - 201"
+    meta:
+      id: req_579d13e357c34f529c9e6bbe2236cf2b
+      created: 1795900000006
+      modified: 1795900000006
+      isPrivate: false
+      description: "Sirve para el rechazo de A3 (409). Si el id ya existe, cambiar entidad_a3_muerta."
+      sortKey: 45
+    method: POST
+    body:
+      mimeType: application/json
+      text: "{\"id\":\"{{ _.entidad_a3_muerta }}\",\"tipo\":\"CERDO\",\"saludMaxima\":20,\"salud\":0,\"posicion\":{\"x\":0,\"y\":0,\"z\":0}}"
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/jugadas"
+    name: "46 POO-09 Escenario feliz - 201 (copiar id a jugada_id)"
+    meta:
+      id: req_475384c08075489f977c97c656b9f730
+      created: 1795900000007
+      modified: 1795900000007
+      isPrivate: false
+      description: ""
+      sortKey: 46
+    method: POST
+    body:
+      mimeType: application/json
+      text: "{\"creeperId\":{{ _.p09_creeper_id }},\"jugadorA2\":{\"id\":\"Steve\",\"saludMaxima\":20,\"x\":2,\"y\":0,\"z\":0},\"entidadA3\":{\"id\":\"{{ _.entidad_a3_id }}\"}}"
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/jugadas/{{ _.jugada_id }}"
+    name: "47 POO-09 GET jugada guardada - 200"
+    meta:
+      id: req_665c19171e1644c693b01b2a45e0f6a3
+      created: 1795900000008
+      modified: 1795900000008
+      isPrivate: false
+      description: ""
+      sortKey: 47
+    method: GET
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/entidades"
+    name: "48 POO-09 Crear Creeper para los rechazos - 201 (copiar id a p09_creeper_rechazo_id)"
+    meta:
+      id: req_65a2c24062a946ab9db9d4ee98bf1ee0
+      created: 1795900000009
+      modified: 1795900000009
+      isPrivate: false
+      description: ""
+      sortKey: 48
+    method: POST
+    body:
+      mimeType: application/json
+      text: "{\"tipo\":\"Creeper\",\"vida\":20,\"danoBase\":5,\"velocidad\":3}"
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/jugadas"
+    name: "49 POO-09 Rechazo de A2 (saludMaxima -1) - 422 rechazadoPor A2"
+    meta:
+      id: req_1b439248523f4166b2746b7d9f46432a
+      created: 1795900000010
+      modified: 1795900000010
+      isPrivate: false
+      description: "Santiago rechaza la salud máxima negativa con 400. A3 no se consulta y la base queda igual."
+      sortKey: 49
+    method: POST
+    body:
+      mimeType: application/json
+      text: "{\"creeperId\":{{ _.p09_creeper_rechazo_id }},\"jugadorA2\":{\"id\":\"Steve\",\"saludMaxima\":-1,\"x\":2,\"y\":0,\"z\":0},\"entidadA3\":{\"id\":\"{{ _.entidad_a3_id }}\"}}"
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/jugadas"
+    name: "50 POO-09 Rechazo de A3 (entidad con salud 0) - 422 rechazadoPor A3"
+    meta:
+      id: req_ba0e44b0c87749f79ff2c0dee4dad89b
+      created: 1795900000011
+      modified: 1795900000011
+      isPrivate: false
+      description: "A2 acepta; Lucas rechaza con 409 porque su entidad no tiene vida. La base queda igual."
+      sortKey: 50
+    method: POST
+    body:
+      mimeType: application/json
+      text: "{\"creeperId\":{{ _.p09_creeper_rechazo_id }},\"jugadorA2\":{\"id\":\"Steve\",\"saludMaxima\":20,\"x\":2,\"y\":0,\"z\":0},\"entidadA3\":{\"id\":\"{{ _.entidad_a3_muerta }}\"}}"
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/jugadas"
+    name: "51 POO-09 GET jugadas - 200: solo está la del escenario feliz"
+    meta:
+      id: req_1dbbc4de824c4a7d9fda2e2d371aa0c9
+      created: 1795900000012
+      modified: 1795900000012
+      isPrivate: false
+      description: ""
+      sortKey: 51
+    method: GET
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/entidades/{{ _.p09_creeper_rechazo_id }}"
+    name: "52 POO-09 GET Creeper de los rechazos - 200: sigue vivo y sin explotar"
+    meta:
+      id: req_a3f587da19c5458ba283701d37a014c6
+      created: 1795900000013
+      modified: 1795900000013
+      isPrivate: false
+      description: ""
+      sortKey: 52
+    method: GET
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/entidades/{{ _.p09_creeper_id }}"
+    name: "53 POO-09 GET Creeper del escenario feliz - 200: vida 0 y yaExploto true"
+    meta:
+      id: req_c66a0118f3af4c899375fea8cf566b0b
+      created: 1795900000014
+      modified: 1795900000014
+      isPrivate: false
+      description: ""
+      sortKey: 53
+    method: GET
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
 cookieJar:
   name: Default Jar
   meta:
@@ -882,3 +1176,10 @@ environments:
     player_id: 2
     zombie_id: 3
     otro_creeper_id: 4
+    a2_url: http://25.29.140.0:8080
+    a3_url: http://25.30.124.10:8080
+    p09_creeper_id: 7
+    p09_creeper_rechazo_id: 8
+    jugada_id: 1
+    entidad_a3_id: objetivo-mateo-2
+    entidad_a3_muerta: rechazo-mateo

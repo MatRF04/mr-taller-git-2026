@@ -76,18 +76,18 @@ public class ExplosionService {
         for (ObjetivoExplosion objetivo : objetivos) {
             Entidad entidad = objetivo.entidad();
             int vidaAnterior = entidad.getVida();
-            entidad.registrarVida(Math.max(0, vidaAnterior - danoExplosion(objetivo.distancia())));
+            entidad.registrarVida(vidaTrasExplosion(vidaAnterior, objetivo.distancia()));
             impactos.add(new Impacto(entidad, vidaAnterior - entidad.getVida(), entidad.getVida()));
         }
         return impactos;
     }
 
     /** Regla 2: 10 puntos de daño hasta 3 bloques de distancia; fuera del radio, nada. */
-    private int danoExplosion(int distancia) {
-        return distancia <= RADIO_EXPLOSION ? DANO_EXPLOSION : 0;
+    static int vidaTrasExplosion(int vida, double distancia) {
+        return distancia <= RADIO_EXPLOSION ? Math.max(0, vida - DANO_EXPLOSION) : vida;
     }
 
-    private void validarPuedeExplotar(Creeper creeper) {
+    void validarPuedeExplotar(Creeper creeper) {
         if (creeper.isYaExploto()) throw new CreeperYaExplotoException("El creeper ya explotó");
         if (!creeper.estaViva()) throw new EntidadMuertaException("El creeper está muerto");
     }

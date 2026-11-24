@@ -1,0 +1,21 @@
+{
+  "pedido": "GET 080/jugadas",
+  "cuerpo": null,
+  "estado": 200,
+  "respuesta": [
+    {
+      "creeperId": 7,
+      "jugadorA2": "Steve",
+      "distanciaJugador": 2.0,
+      "saludJugadorAntes": 20,
+      "danoCreeper": 10,
+      "saludJugadorDespues": 10,
+      "entidadA3": "objetivo-mateo-2",
+      "saludEntidadAntes": 20,
+      "danoTnt": 8,
+      "saludEntidadDespues": 12,
+      "registradaEn": "2026-11-24T00:16:11.321244Z",
+      "id": 1
+    }
+  ]
+}

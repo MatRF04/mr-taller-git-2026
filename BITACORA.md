@@ -4,6 +4,43 @@
 **Estudiante:** Mateo (GitHub: MatRF04)
 **Dominio:** Minecraft
 
+## Ejercicio POO-09 — APIs cruzadas
+
+- **Asistente:** Claude Code (Anthropic)
+- **Modelo:** Claude Opus 5.5 (`claude-opus-5-5`)
+
+### Resumen de prompts
+
+1. Pedí saber qué faltaba para terminar POO-09 con lo que ya tenía (springdoc y un cliente
+   WebClient hechos en clase).
+2. Pedí mis propios datos (URL base, OpenAPI y reglas) para pasárselos al grupo, y le pasé
+   los datos de Santiago y de Lucas (URLs de Hamachi, OpenAPI y repositorios).
+3. Elegí el escenario de la explosión en cadena entre las dos opciones que propuso.
+4. Le pasé la respuesta de Lucas sobre su endpoint y le pedí correr la prueba en vivo.
+
+### Qué hizo la IA
+
+- Leyó los dos OpenAPI y los README de Santiago y Lucas, y probó con `GET` los endpoints
+  que no modifican nada.
+- Completó el OpenAPI propio con las dos reglas y las respuestas `400`, `404`, `409`.
+- Escribió `ClienteCompanero`, `ClienteSantiago` y `ClienteLucas`, la jerarquía de
+  `RechazoCompaneroException` y sus handlers, el escenario (`Jugada`, `JugadaRepository`,
+  `EscenarioService`, `JugadaController`) y sus pruebas.
+- Ajustó el cliente de A3 cuando Lucas aclaró que su endpoint recibe la posición y modifica
+  su base, y dejó esa llamada al final del escenario.
+- Corrió el escenario contra los servicios reales, encontró que el primer intento feliz
+  fallaba con 500 por una tabla `JUGADA` vieja en la base de desarrollo, y guardó las
+  respuestas en `insomnia/respuestas/`.
+- Agregó los pedidos 40–53 de Insomnia y la sección POO-09 del README.
+
+### Qué decidí yo
+
+- Armé el trío con Santiago (A2) y Lucas (A3) y conseguí sus URLs y repositorios.
+- Elegí el escenario de la explosión en cadena, que consulta las reglas reales de los dos
+  compañeros, en lugar de solo verificar el estado de sus entidades.
+- Le pregunté a Lucas el contrato real de su endpoint cuando el OpenAPI no coincidía.
+- Reinicié el servicio para cada prueba y borré la tabla `JUGADA` vieja desde la consola H2.
+
 ## Ejercicio POO-08 — CRUD REST, H2, reglas de juego y excepciones
 
 ### CRUD REST y H2

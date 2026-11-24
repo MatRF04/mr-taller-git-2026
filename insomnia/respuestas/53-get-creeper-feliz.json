@@ -1,0 +1,13 @@
+{
+  "pedido": "GET 080/entidades/7",
+  "cuerpo": null,
+  "estado": 200,
+  "respuesta": {
+    "tipo": "Creeper",
+    "vida": 0,
+    "danoBase": 5,
+    "velocidad": 3,
+    "id": 7,
+    "yaExploto": true
+  }
+}

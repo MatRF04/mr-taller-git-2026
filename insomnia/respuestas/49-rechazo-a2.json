@@ -1,0 +1,23 @@
+{
+  "pedido": "POST 080/jugadas",
+  "cuerpo": {
+    "creeperId": 8,
+    "jugadorA2": {
+      "id": "Steve",
+      "saludMaxima": -1,
+      "x": 2,
+      "y": 0,
+      "z": 0
+    },
+    "entidadA3": {
+      "id": "objetivo-mateo-2"
+    }
+  },
+  "estado": 422,
+  "respuesta": {
+    "detalleRemoto": "La salud máxima debe ser mayor a 0, se recibió: -1",
+    "estadoRemoto": 400,
+    "rechazadoPor": "A2 (Santiago Baez)",
+    "error": "La jugada fue rechazada por A2 (Santiago Baez)"
+  }
+}
