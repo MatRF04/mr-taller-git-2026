@@ -2,7 +2,8 @@
 
 API REST de entidades de Minecraft desarrollada para Lenguaje de Programación 3.
 Guarda las entidades en H2, expone un CRUD y simula explosiones de creepers sobre
-jugadores y zombies (ejercicio POO-08).
+jugadores y zombies (ejercicio POO-08). En POO-09 publica su OpenAPI y consume las APIs de dos
+compañeros para un escenario propio, la explosión en cadena (ver «POO-09: APIs cruzadas»).
 
 ## Cómo ejecutar
 
@@ -16,6 +17,193 @@ La aplicación queda disponible en `http://localhost:8080`. `GET /` responde
 ## Documentación de la API
 
 Con la aplicación en ejecución, podés explorar y probar los endpoints en [Swagger UI](http://localhost:8080/swagger-ui.html). La especificación está disponible en [formato JSON](http://localhost:8080/v3/api-docs).
+En la red de Hamachi del grupo: `http://25.28.15.25:8080/v3/api-docs`.
+
+## POO-09: APIs cruzadas
+
+### Situación de POO-08
+
+La corrección de POO-08 tuvo 17 de 24 con observaciones en los criterios 2, 3 y 8. Todas están
+cerradas en `main` ([PR #3](https://github.com/MatRF04/mr-taller-git-2026/pull/3)):
+
+| Observación | Cómo se cerró |
+| --- | --- |
+| Criterio 2: el dominio lanzaba excepciones y tenía reglas de negocio (`Creeper`, `Entidad`). | Las validaciones y las dos reglas pasaron a `EntidadService` y `ExplosionService`. Ninguna clase de `domain` lanza excepciones ni calcula reglas: solo guardan estado. [a7fe53a](https://github.com/MatRF04/mr-taller-git-2026/commit/a7fe53a67a1ad08ebda00f0369813bdbc2f92d39) |
+| Criterio 3: un `PUT` con vida 20 revivía a un Zombie muerto o a un Creeper que ya explotó. | `EntidadService.actualizar` responde `409` ante una entidad muerta o un Creeper que ya explotó, sin mirar la vida del pedido. Lo prueban `ExplosionTests` y los pedidos `30a`–`30d` de Insomnia. [a7fe53a](https://github.com/MatRF04/mr-taller-git-2026/commit/a7fe53a67a1ad08ebda00f0369813bdbc2f92d39) |
+| Criterio 8: la respuesta a «¿Quién lanza la excepción?» decía que el objeto del juego. | Ahora dice que las lanzan `EntidadService` y `ExplosionService`, y coincide con el código. [74b7039](https://github.com/MatRF04/mr-taller-git-2026/commit/74b703943958fb46b9bb7b92a9a83abf093c4168) |
+| Criterio 8: más de tres errores de ortografía (el README estaba casi entero sin tildes). | Se corrigieron las tildes del README, de la bitácora, del Javadoc y de los mensajes de error. [f08466c](https://github.com/MatRF04/mr-taller-git-2026/commit/f08466c8923014e0fc8753675d56898db6069b54) |
+
+### Grupo
+
+Trío de Minecraft. Cada uno consulta a los otros dos; los tres servicios están en la red de
+Hamachi **TPLP3**, en el puerto 8080.
+
+| Rol | Integrante | Repositorio | URL base | OpenAPI |
+| --- | --- | --- | --- | --- |
+| A1 | Mateo Ríos ([@MatRF04](https://github.com/MatRF04)) | [mr-taller-git-2026](https://github.com/MatRF04/mr-taller-git-2026) | `http://25.28.15.25:8080` | [`/v3/api-docs`](http://25.28.15.25:8080/v3/api-docs) · [Swagger UI](http://25.28.15.25:8080/swagger-ui.html) |
+| A2 | Santiago Baez ([@SaDez7](https://github.com/SaDez7)) | [sb-taller-git-2026](https://github.com/SaDez7/sb-taller-git-2026) | `http://25.29.140.0:8080` | [`/v3/api-docs`](http://25.29.140.0:8080/v3/api-docs) · [Swagger UI](http://25.29.140.0:8080/swagger-ui.html) |
+| A3 | Lucas Fadul ([@LucasFadul](https://github.com/LucasFadul)) | [lfadul-tp-lp3-2026](https://github.com/LucasFadul/lfadul-tp-lp3-2026) | `http://25.30.124.10:8080` | [`/v3/api-docs`](http://25.30.124.10:8080/v3/api-docs) · [Swagger UI](http://25.30.124.10:8080/swagger-ui/index.html) |
+
+Las dos reglas de cada dueño, en una frase:
+
+- **A1 (Mateo):** un Creeper vivo explota una sola vez y muere al hacerlo; la explosión quita
+  10 de vida a cada Player o Zombie a 3 bloques o menos, sin bajar de 0.
+- **A2 (Santiago, [README](https://github.com/SaDez7/sb-taller-git-2026#las-dos-reglas-de-negocio)):**
+  el daño de la explosión decae con la distancia, `max(1, round(20 * (1 - distancia / radio)))`
+  dentro del radio; todo bloque a distancia menor o igual al radio queda destruido.
+  Además, `GET /jugador` valida que la salud máxima sea mayor que 0 y que la salud quede entre 0 y la máxima.
+- **A3 (Lucas, [README](https://github.com/LucasFadul/lfadul-tp-lp3-2026)):**
+  una TNT causa 8 de daño a una entidad viva a 4 bloques o menos, sin bajar su salud de 0;
+  una TNT se consume al detonar y no se puede volver a usar.
+
+### Escenario: explosión en cadena
+
+> Un Creeper de Mateo explota en el origen, alcanza al jugador que valida Santiago (A2) y
+> detona una TNT que, según la regla de Lucas (A3), daña a una entidad suya. La jugada se
+> guarda en el H2 de Mateo solo si los dos aceptan.
+
+Las reglas que se consultan:
+
+- **A2:** `GET /jugador?id&saludMaxima&x&y&z` construye al jugador sin guardarlo y responde
+  `400` si la salud máxima no es positiva. Devuelve la salud y la posición del jugador.
+- **A3:** `POST /api/entidades/{id}/explosiones` con `{"posicion":{"x":0,"y":0,"z":0}}` aplica
+  la regla de la TNT sobre su entidad: `200` con la salud anterior, la actual y el daño;
+  `409` si la entidad no tiene vida; `404` si no existe. **Esta llamada guarda la nueva salud
+  en la base de Lucas.**
+
+```bash
+curl -i -X POST http://localhost:8080/jugadas -H 'Content-Type: application/json' -d '{
+  "creeperId": 7,
+  "jugadorA2": {"id": "Steve", "saludMaxima": 20, "x": 2, "y": 0, "z": 0},
+  "entidadA3": {"id": "objetivo-mateo-2"}
+}'
+```
+
+Orden de las consultas, en `EscenarioService`:
+
+1. **Reglas locales.** El Creeper existe, está vivo y no explotó (`404`, `409`). Si no puede
+   explotar, no tiene sentido consultar a los compañeros.
+2. **A2.** Su consulta no cambia nada y su posición hace falta para calcular el daño del Creeper.
+3. **A3, al final.** Es la única llamada que modifica una base ajena: si el Creeper o A2
+   rechazan, a A3 no se lo llama.
+4. **Guardar.** Con las dos aceptaciones, el Creeper queda con vida 0 y `yaExploto = true`
+   (regla 1), se calcula el daño al jugador con la regla 2 y se guarda la `Jugada`.
+
+```mermaid
+sequenceDiagram
+    actor Cliente as Insomnia
+    participant A1 as Mateo (A1, escenario)
+    participant A2 as Santiago (A2, jugador)
+    participant A3 as Lucas (A3, TNT)
+
+    Cliente->>A1: POST /jugadas
+    A1->>A1: el Creeper puede explotar (reglas locales)
+    A1->>A2: GET /jugador
+    A2-->>A1: 200 jugador con salud y posición
+    A1->>A3: POST /api/entidades/{id}/explosiones
+    A3-->>A1: 200 daño de la TNT
+    A1->>A1: el Creeper explota y se guarda la Jugada
+    A1-->>Cliente: 201 jugada guardada
+```
+
+| Resultado | Respuesta de A1 | Qué queda en la base de A1 |
+| --- | --- | --- |
+| A2 y A3 aceptan | `201` con la jugada y `Location: /jugadas/{id}` | La jugada (`GET /jugadas/{id}`) y el Creeper con vida 0 y `yaExploto = true` |
+| A2 rechaza | `422` con `"rechazadoPor": "A2 (Santiago Baez)"`, `estadoRemoto` y `detalleRemoto` | Igual que antes; A3 no se consulta |
+| A2 acepta y A3 rechaza | `422` con `"rechazadoPor": "A3 (Lucas Fadul)"` | Igual que antes: ninguna jugada nueva y el Creeper sigue vivo |
+| A2 o A3 no responde (5 s), falla con 5xx o devuelve algo incompleto | `502` con `"servicio"` (quién falló) | Igual que antes |
+
+**Lo que no se puede revertir.** Si A3 acepta y después falla el guardado local, la salud que
+A3 ya guardó no vuelve atrás, porque esta transacción no alcanza su base. Pasó una vez en las
+pruebas: una tabla `JUGADA` vieja en la base de desarrollo hizo fallar el `INSERT` después de
+que Lucas aceptó. Por eso A3 va último y las entidades de A3 que usa el escenario son de prueba.
+
+### Cómo arrancar los tres servicios
+
+Cada uno en su máquina, conectada a la red de Hamachi TPLP3. Primero A2 y A3, después A1.
+
+```bash
+# A2: Santiago
+git clone https://github.com/SaDez7/sb-taller-git-2026.git && cd sb-taller-git-2026
+git checkout 1853e52
+./mvnw spring-boot:run
+
+# A3: Lucas
+git clone https://github.com/LucasFadul/lfadul-tp-lp3-2026.git && cd lfadul-tp-lp3-2026
+git checkout 692c1fa
+./mvnw spring-boot:run
+
+# A1: Mateo
+git clone https://github.com/MatRF04/mr-taller-git-2026.git && cd mr-taller-git-2026
+./mvnw spring-boot:run
+```
+
+`1853e52` y `692c1fa` son los últimos commits que Santiago y Lucas publicaron al escribir este
+README; para la corrección vale el commit que cada uno entrega en su POO-09.
+
+Las URLs de A2 y A3 están en `src/main/resources/application.properties`
+(`companeros.a2.url` y `companeros.a3.url`). Si cambian, no hace falta tocar el código:
+
+```bash
+A2_URL=http://localhost:8081 A3_URL=http://localhost:8082 ./mvnw spring-boot:run
+```
+
+### Insomnia del escenario
+
+Los pedidos `40`–`53` de `insomnia/Minecraft.yaml` usan las variables `base_url`, `a2_url` y
+`a3_url` del entorno:
+
+1. `40`–`42`: los tres OpenAPI.
+2. `43`: crear el Creeper del escenario (copiar el `id` a `p09_creeper_id`).
+3. `44`–`45`: preparar en A3 una entidad viva y otra con salud 0 en el origen. Si los ids
+   `entidad_a3_id` o `entidad_a3_muerta` ya existen en la base de Lucas, elegir otros.
+4. `46`–`47`: escenario feliz (`201`) y `GET` de la jugada guardada.
+5. `48`: crear el Creeper de los rechazos (copiar el `id` a `p09_creeper_rechazo_id`).
+6. `49`: rechazo de A2 (`saludMaxima: -1`) → `422`.
+7. `50`: rechazo de A3 (entidad con salud 0) → `422`.
+8. `51`–`53`: `GET` que muestran que solo quedó la jugada feliz, que el Creeper de los
+   rechazos sigue vivo y que el del escenario feliz explotó.
+
+En `insomnia/respuestas/` están las respuestas reales que dieron los servicios de Santiago y
+Lucas el 23 de noviembre (feliz, cada rechazo y los `GET` posteriores).
+
+### Si un compañero está apagado
+
+- El servicio responde `502` y dice cuál de los dos no respondió; la base no cambia.
+- Las respuestas guardadas en `insomnia/respuestas/` muestran el caso feliz y cada rechazo.
+- `EscenarioTests` prueba los mismos casos con los dos clientes simulados, sin red.
+- Antes de probar se comprobó con `GET /v3/api-docs` que los dos estuvieran arriba. El cuerpo
+  de la llamada a A3 no coincidía con su OpenAPI: se le preguntó a Lucas, que confirmó el
+  formato correcto, cómo provocar su rechazo y que la llamada modifica su base.
+
+### Qué hay que pensar (POO-09)
+
+**OpenAPI.** Se publica con springdoc en `/v3/api-docs` y Swagger UI en `/swagger-ui.html`.
+La descripción general explica las dos reglas y los códigos de error; `POST /entidades/{id}/explotar`
+y el CRUD documentan sus respuestas `400`, `404` y `409` con el cuerpo `{"error": "..."}`, y
+`POST /jugadas` documenta además `422` y `502`. `OpenApiTests` verifica que todo eso esté.
+
+**Cliente.** `ClienteSantiago` (A2) y `ClienteLucas` (A3) usan WebClient y heredan de
+`ClienteCompanero`, que espera 5 segundos y traduce los errores. Las URLs se leen de las
+propiedades `companeros.a2.url` y `companeros.a3.url`, que toman las variables de entorno
+`A2_URL` y `A3_URL` si existen.
+
+**Errores.** Se traducen a una jerarquía propia: un `4xx` del compañero es un rechazo de su
+regla (`RechazoA2Exception` o `RechazoA3Exception`, hijas de `RechazoCompaneroException`) y un
+timeout, un `5xx` o una respuesta incompleta es `CompaneroNoDisponibleException`. El
+`ErrorController` tiene un handler por tipo, así que distingue «rechazó A2» de «rechazó A3».
+El código y el cuerpo del compañero no se propagan como respuesta propia, pero viajan dentro
+de la nuestra (`estadoRemoto` y `detalleRemoto`).
+
+**Límite.** No se clonó ni se copió código de los compañeros: las rutas, los cuerpos y las
+reglas salen de su OpenAPI y su README. Cuando el OpenAPI de Lucas no alcanzó (documentaba
+`{tntId, objetivoId}` y el endpoint espera `{posicion}`), se le preguntó a él.
+
+**Pregunta de anclaje: si el compañero cambia el nombre de una ruta, ¿alcanza con actualizar
+lo que dice el OpenAPI?** Sí. Cada ruta ajena aparece una sola vez, en `ClienteSantiago` o en
+`ClienteLucas`. Los records internos solo mapean los campos que se usan de la respuesta
+(salud, posición, daño); no hay clases del dominio de los compañeros copiadas en este proyecto.
+
 
 ## Configuración de H2
 
@@ -525,6 +713,11 @@ Los servicios controlan las escrituras del CRUD y de la simulación. Los método
   y CRUD de Creeper.
 - `SonidoControllerTests` y `UIControllerTests`: el protocolo responde sobre ambas familias.
 - `EntidadControllerTests` y `ComportamientoControllerTests`: endpoints de POO-06.
+- `OpenApiTests`: el documento OpenAPI describe las reglas, el CRUD, la simulación y el escenario con sus errores.
+- `ClientesCompanerosTests` y `SimulacionJugadorTests`: los clientes de A2 y A3 contra respuestas
+  simuladas (aceptación, rechazo atribuido, `5xx` y timeout).
+- `EscenarioTests`: escenario feliz, rechazo de A2, rechazo de A3 y A3 caído; en los rechazos
+  la base queda igual.
 
 ## Licencia
 
