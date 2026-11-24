@@ -1,0 +1,18 @@
+{
+  "pedido": "POST 080/entidades",
+  "cuerpo": {
+    "tipo": "Creeper",
+    "vida": 20,
+    "danoBase": 5,
+    "velocidad": 3
+  },
+  "estado": 201,
+  "respuesta": {
+    "tipo": "Creeper",
+    "vida": 20,
+    "danoBase": 5,
+    "velocidad": 3,
+    "id": 8,
+    "yaExploto": false
+  }
+}
