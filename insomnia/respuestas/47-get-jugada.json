@@ -1,19 +1,19 @@
 {
-  "pedido": "GET 080/jugadas/1",
+  "pedido": "GET 096/jugadas/2",
   "cuerpo": null,
   "estado": 200,
   "respuesta": {
-    "creeperId": 7,
-    "jugadorA2": "Steve",
+    "creeperId": 3,
+    "jugadorA2": "steve-m2",
     "distanciaJugador": 2.0,
     "saludJugadorAntes": 20,
-    "danoCreeper": 10,
-    "saludJugadorDespues": 10,
-    "entidadA3": "objetivo-mateo-2",
+    "danoCreeper": 12,
+    "saludJugadorDespues": 8,
+    "entidadA3": "objetivo-mateo",
     "saludEntidadAntes": 20,
     "danoTnt": 8,
     "saludEntidadDespues": 12,
-    "registradaEn": "2026-11-24T00:16:11.321244Z",
-    "id": 1
+    "registradaEn": "2026-11-25T15:29:19.114364Z",
+    "id": 2
   }
 }

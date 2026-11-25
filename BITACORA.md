@@ -41,6 +41,17 @@
 - Le pregunté a Lucas el contrato real de su endpoint cuando el OpenAPI no coincidía.
 - Reinicié el servicio para cada prueba y borré la tabla `JUGADA` vieja desde la consola H2.
 
+### Cambio a la regla de daño de Santiago (2026-11-25)
+
+- **Asistente:** Claude Code (Anthropic), modelo Claude Opus 5.5 (`claude-opus-5-5`).
+- **Prompt:** pedí revisar si el proyecto cumplía todo el enunciado; la revisión marcó que de
+  Santiago se consultaba una validación (`GET /jugador`) y no una de sus reglas del juego, y pedí
+  clonar los commits de entrega de los dos compañeros para probarlo y cambiarlo en otra branch.
+- **Qué hizo la IA:** arrancó los servicios de Santiago y Lucas desde sus commits de entrega,
+  probó su regla de daño (`POST /simulacion/explosiones`), cambió `ClienteSantiago`, el escenario,
+  las pruebas, Insomnia y el README, y guardó las respuestas reales.
+- **Qué decidí yo:** usar la regla de daño de Santiago y hacer el cambio en una branch aparte.
+
 ## Ejercicio POO-08 — CRUD REST, H2, reglas de juego y excepciones
 
 ### CRUD REST y H2

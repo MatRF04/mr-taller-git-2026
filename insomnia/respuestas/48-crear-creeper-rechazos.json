@@ -1,5 +1,5 @@
 {
-  "pedido": "POST 080/entidades",
+  "pedido": "POST 096/entidades",
   "cuerpo": {
     "tipo": "Creeper",
     "vida": 20,
@@ -12,7 +12,7 @@
     "vida": 20,
     "danoBase": 5,
     "velocidad": 3,
-    "id": 8,
+    "id": 4,
     "yaExploto": false
   }
 }

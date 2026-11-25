@@ -1,0 +1,24 @@
+{
+  "pedido": "POST 081/entidades",
+  "cuerpo": {
+    "tipo": "jugador",
+    "id": "steve-m2",
+    "salud": 20,
+    "saludMaxima": 20,
+    "experiencia": 0,
+    "x": 2,
+    "y": 0,
+    "z": 0
+  },
+  "estado": 201,
+  "respuesta": {
+    "tipo": "jugador",
+    "id": "steve-m2",
+    "salud": 20,
+    "saludMaxima": 20,
+    "experiencia": 0,
+    "x": 2.0,
+    "y": 0.0,
+    "z": 0.0
+  }
+}

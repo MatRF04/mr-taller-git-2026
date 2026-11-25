@@ -28,12 +28,12 @@ public class JugadaController {
     }
 
     @Operation(summary = "Explosión en cadena validada por A2 y A3", description = """
-            El Creeper local explota en el origen, alcanza al jugador de A2 (Santiago Baez) y detona una \
-            TNT que daña a la entidad de A3 (Lucas Fadul). Primero se aplican las reglas locales del \
-            Creeper; después A2 valida al jugador con GET /jugador y por último A3 aplica su regla de TNT \
-            con POST /api/entidades/{id}/explosiones (esa llamada cambia la base de A3, por eso va al \
-            final). Solo si las dos aceptan, el Creeper queda explotado y la jugada se guarda en H2. \
-            Si alguna rechaza, la base queda igual y la respuesta indica quién rechazó.""")
+            El Creeper local explota y detona en cadena el creeper de A2 (Santiago Baez), cuya regla de \
+            daño (decae con la distancia, POST /simulacion/explosiones) se aplica a su jugador, y una TNT \
+            cuya regla aplica A3 (Lucas Fadul) con POST /api/entidades/{id}/explosiones. Primero se \
+            aplican las reglas locales del Creeper, después A2 y por último A3. Solo si las dos aceptan, \
+            el Creeper queda explotado y la jugada se guarda en H2. Si alguna rechaza, la base local \
+            queda igual y la respuesta indica quién rechazó.""")
     @ApiResponse(responseCode = "201", description = "Jugada aceptada por A2 y A3 y guardada", useReturnTypeSchema = true)
     @ApiResponse(responseCode = "400", description = "Faltan datos o el origen no es un Creeper",
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))

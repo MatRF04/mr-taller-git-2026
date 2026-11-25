@@ -1,13 +1,11 @@
 {
-  "pedido": "POST 080/jugadas",
+  "pedido": "POST 096/jugadas",
   "cuerpo": {
-    "creeperId": 8,
+    "creeperId": 4,
     "jugadorA2": {
-      "id": "Steve",
-      "saludMaxima": 20,
-      "x": 2,
-      "y": 0,
-      "z": 0
+      "id": "steve-m2",
+      "creeperId": "creeper-m2",
+      "radio": 5
     },
     "entidadA3": {
       "id": "rechazo-mateo"
@@ -15,9 +13,9 @@
   },
   "estado": 422,
   "respuesta": {
-    "detalleRemoto": "{\"error\":\"No se puede simular una explosion sobre la entidad sin vida rechazo-mateo\"}",
     "estadoRemoto": 409,
-    "rechazadoPor": "A3 (Lucas Fadul)",
-    "error": "La jugada fue rechazada por A3 (Lucas Fadul)"
+    "detalleRemoto": "{\"error\":\"No se puede simular una explosion sobre la entidad sin vida rechazo-mateo\"}",
+    "error": "La jugada fue rechazada por A3 (Lucas Fadul)",
+    "rechazadoPor": "A3 (Lucas Fadul)"
   }
 }

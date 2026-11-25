@@ -1,0 +1,23 @@
+{
+  "pedido": "POST 081/entidades",
+  "cuerpo": {
+    "tipo": "creeper",
+    "id": "creeper-m2",
+    "salud": 20,
+    "saludMaxima": 20,
+    "x": 0,
+    "y": 0,
+    "z": 0
+  },
+  "estado": 201,
+  "respuesta": {
+    "tipo": "creeper",
+    "id": "creeper-m2",
+    "salud": 20,
+    "saludMaxima": 20,
+    "experiencia": 0,
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0.0
+  }
+}

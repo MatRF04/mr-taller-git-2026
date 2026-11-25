@@ -1,0 +1,29 @@
+{
+  "pedido": "POST 082/api/entidades",
+  "cuerpo": {
+    "id": "rechazo-mateo",
+    "tipo": "CERDO",
+    "saludMaxima": 20,
+    "salud": 0,
+    "posicion": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    }
+  },
+  "estado": 201,
+  "respuesta": {
+    "id": "rechazo-mateo",
+    "tipo": "CERDO",
+    "salud": 0,
+    "saludMaxima": 20,
+    "posicion": {
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
+    },
+    "comportamiento": "Deambula pacificamente por el terreno",
+    "experiencia": null,
+    "profesion": null
+  }
+}

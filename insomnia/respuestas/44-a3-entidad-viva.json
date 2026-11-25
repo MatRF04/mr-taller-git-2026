@@ -1,7 +1,7 @@
 {
-  "pedido": "POST 080/api/entidades",
+  "pedido": "POST 082/api/entidades",
   "cuerpo": {
-    "id": "objetivo-mateo-2",
+    "id": "objetivo-mateo",
     "tipo": "CERDO",
     "saludMaxima": 20,
     "salud": 20,
@@ -13,7 +13,7 @@
   },
   "estado": 201,
   "respuesta": {
-    "id": "objetivo-mateo-2",
+    "id": "objetivo-mateo",
     "tipo": "CERDO",
     "salud": 20,
     "saludMaxima": 20,
