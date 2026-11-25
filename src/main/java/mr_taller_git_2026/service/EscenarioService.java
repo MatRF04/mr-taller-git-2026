@@ -15,15 +15,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Escenario de POO-09: explosión en cadena. El Creeper local explota en el origen, alcanza al
- * jugador que valida A2 y detona una TNT en el mismo lugar, que daña a la entidad de A3.
+ * Escenario de POO-09: explosión en cadena. El Creeper local explota y detona el creeper de A2,
+ * cuya explosión daña a su jugador según la regla de daño de A2 (decae con la distancia), y una
+ * TNT que daña a la entidad de A3 según la regla de A3.
  *
  * <p>Orden: primero las reglas locales (no tiene sentido molestar a los compañeros con un
- * Creeper que no puede explotar), después A2 (su consulta no cambia nada y su posición hace
- * falta para calcular el daño del Creeper) y por último A3, porque es la única llamada que
- * modifica una base ajena: si algo antes rechaza, a A3 no se lo llama. Solo cuando las dos
- * aceptan se escribe en H2; si una rechaza, la excepción revierte la transacción antes de
- * cualquier cambio y el handler indica de quién fue el rechazo.
+ * Creeper que no puede explotar), después A2 y por último A3. Solo cuando las dos aceptan se
+ * escribe en H2; si una rechaza, la excepción revierte la transacción antes de cualquier cambio
+ * local y el handler indica de quién fue el rechazo. Las reglas de A2 y A3 guardan su resultado
+ * en sus propias bases: si A2 acepta y A3 rechaza, el cambio en A2 no se deshace.
  */
 @Service
 public class EscenarioService {
@@ -48,17 +48,14 @@ public class EscenarioService {
         Creeper creeper = creeper(datos.creeperId());
 
         var pedidoA2 = datos.jugadorA2();
-        var jugador = a2.obtenerJugador(pedidoA2.id(), pedidoA2.saludMaxima(),
-                pedidoA2.x(), pedidoA2.y(), pedidoA2.z());
+        var explosionA2 = a2.explotar(pedidoA2.creeperId(), pedidoA2.radio(), pedidoA2.id());
 
         var tnt = a3.explotarTnt(datos.entidadA3().id(), 0, 0, 0);
 
-        double distancia = SimulacionJugadorService.distanciaAlOrigen(jugador.x(), jugador.y(), jugador.z());
-        int saludDespues = ExplosionService.vidaTrasExplosion(jugador.salud(), distancia);
         creeper.registrarExplosion();
-        return jugadas.save(new Jugada(creeper.getId(), jugador.id(), distancia, jugador.salud(),
-                jugador.salud() - saludDespues, saludDespues, tnt.entidadId(), tnt.saludAnterior(),
-                tnt.danoAplicado(), tnt.saludActual(), Instant.now()));
+        return jugadas.save(new Jugada(creeper.getId(), explosionA2.jugadorId(), explosionA2.distancia(),
+                explosionA2.saludAntes(), explosionA2.danio(), explosionA2.saludDespues(),
+                tnt.entidadId(), tnt.saludAnterior(), tnt.danoAplicado(), tnt.saludActual(), Instant.now()));
     }
 
     @Transactional(readOnly = true)
@@ -85,11 +82,9 @@ public class EscenarioService {
             throw new IllegalArgumentException("creeperId es obligatorio");
         }
         var jugador = datos.jugadorA2();
-        if (jugador == null || jugador.saludMaxima() == null || jugador.x() == null
-                || jugador.y() == null || jugador.z() == null) {
-            throw new IllegalArgumentException("jugadorA2 necesita saludMaxima, x, y y z");
+        if (jugador == null || esVacio(jugador.id()) || esVacio(jugador.creeperId()) || jugador.radio() == null) {
+            throw new IllegalArgumentException("jugadorA2 necesita id, creeperId y radio");
         }
-        SimulacionJugadorService.validarCoordenadas(jugador.x(), jugador.y(), jugador.z());
         if (datos.entidadA3() == null || esVacio(datos.entidadA3().id())) {
             throw new IllegalArgumentException("entidadA3 necesita el id de la entidad de A3");
         }

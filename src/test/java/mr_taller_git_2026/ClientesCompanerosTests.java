@@ -47,6 +47,33 @@ class ClientesCompanerosTests {
     }
 
     @Test
+    void a2AplicaSuReglaDeDanoYDevuelveElJugadorAfectado() {
+        var pedido = new AtomicReference<ClientRequest>();
+        var a2 = new ClienteSantiago(responde(HttpStatus.OK, """
+                {"creeperId":"creeper-m","radio":5.0,"bloques":[],"jugadores":[
+                 {"id":"steve-m","distancia":2.0,"alcanzado":true,"danio":12,"saludAntes":20,"saludDespues":8}]}
+                """, pedido), "http://a2", "Santiago Baez");
+
+        var explosion = a2.explotar("creeper-m", 5, "steve-m");
+
+        assertEquals(HttpMethod.POST, pedido.get().method());
+        assertEquals("/simulacion/explosiones", pedido.get().url().getPath());
+        assertEquals(12, explosion.danio());
+        assertEquals(8, explosion.saludDespues());
+    }
+
+    @Test
+    void unaReglaRotaDeA2EsUnRechazoAtribuidoASantiago() {
+        var a2 = new ClienteSantiago(responde(HttpStatus.UNPROCESSABLE_CONTENT,
+                "{\"tipo\":\"regla_de_juego\",\"mensaje\":\"El radio de la explosión debe ser mayor a 0.\"}",
+                new AtomicReference<>()), "http://a2", "Santiago Baez");
+
+        var rechazo = assertThrows(RechazoA2Exception.class, () -> a2.explotar("creeper-m", 0, "steve-m"));
+
+        assertEquals(422, rechazo.getEstadoRemoto());
+    }
+
+    @Test
     void unErrorDeA2EsUnRechazoAtribuidoASantiago() {
         var a2 = new ClienteSantiago(responde(HttpStatus.BAD_REQUEST,
                 "La salud máxima debe ser mayor a 0, se recibió: -1", new AtomicReference<>()),

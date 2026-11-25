@@ -9,13 +9,12 @@ public record JugadaRequest(
         JugadorA2 jugadorA2,
         EntidadA3 entidadA3) {
 
-    @Schema(description = "Jugador que valida A2 con GET /jugador. El Creeper explota en el origen (0, 0, 0)")
+    @Schema(description = "Explosión que A2 aplica con su regla de daño (POST /simulacion/explosiones): "
+            + "el creeper y el jugador tienen que existir en la base de A2")
     public record JugadorA2(
-            @Schema(example = "Steve") String id,
-            @Schema(example = "20") Integer saludMaxima,
-            @Schema(example = "2") Double x,
-            @Schema(example = "0") Double y,
-            @Schema(example = "0") Double z) {}
+            @Schema(description = "Id del jugador en A2", example = "steve-m") String id,
+            @Schema(description = "Id del creeper de A2 que detona en cadena", example = "creeper-m") String creeperId,
+            @Schema(description = "Radio de la explosión (mayor que 0)", example = "5") Double radio) {}
 
     @Schema(description = "Entidad de A3 alcanzada por la TNT, que detona en el origen. "
             + "A3 aplica su regla con POST /api/entidades/{id}/explosiones")
