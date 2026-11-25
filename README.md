@@ -51,21 +51,23 @@ Las dos reglas de cada dueño, en una frase:
 - **A2 (Santiago, [README](https://github.com/SaDez7/sb-taller-git-2026#las-dos-reglas-de-negocio)):**
   el daño de la explosión decae con la distancia, `max(1, round(20 * (1 - distancia / radio)))`
   dentro del radio; todo bloque a distancia menor o igual al radio queda destruido.
-  Además, `GET /jugador` valida que la salud máxima sea mayor que 0 y que la salud quede entre 0 y la máxima.
 - **A3 (Lucas, [README](https://github.com/LucasFadul/lfadul-tp-lp3-2026)):**
   una TNT causa 8 de daño a una entidad viva a 4 bloques o menos, sin bajar su salud de 0;
   una TNT se consume al detonar y no se puede volver a usar.
 
 ### Escenario: explosión en cadena
 
-> Un Creeper de Mateo explota en el origen, alcanza al jugador que valida Santiago (A2) y
-> detona una TNT que, según la regla de Lucas (A3), daña a una entidad suya. La jugada se
-> guarda en el H2 de Mateo solo si los dos aceptan.
+> Un Creeper de Mateo explota y detona en cadena un creeper de Santiago (A2), cuya explosión
+> daña a su jugador según la regla de daño de Santiago, y una TNT que, según la regla de Lucas
+> (A3), daña a una entidad suya. La jugada se guarda en el H2 de Mateo solo si los dos aceptan.
 
 Las reglas que se consultan:
 
-- **A2:** `GET /jugador?id&saludMaxima&x&y&z` construye al jugador sin guardarlo y responde
-  `400` si la salud máxima no es positiva. Devuelve la salud y la posición del jugador.
+- **A2:** `POST /simulacion/explosiones` con `{"creeperId", "radio", "jugadores":[{"id"}], "bloques":[]}`
+  aplica su regla 1: el daño decae con la distancia, `max(1, round(20 * (1 - distancia / radio)))`.
+  `200` con la distancia, el daño y la salud antes y después; `422` si se rompe una regla de
+  juego (por ejemplo, radio no positivo); `404` si el creeper o el jugador no existen.
+  **Esta llamada guarda la nueva salud en la base de Santiago.**
 - **A3:** `POST /api/entidades/{id}/explosiones` con `{"posicion":{"x":0,"y":0,"z":0}}` aplica
   la regla de la TNT sobre su entidad: `200` con la salud anterior, la actual y el daño;
   `409` si la entidad no tiene vida; `404` si no existe. **Esta llamada guarda la nueva salud
@@ -74,7 +76,7 @@ Las reglas que se consultan:
 ```bash
 curl -i -X POST http://localhost:8080/jugadas -H 'Content-Type: application/json' -d '{
   "creeperId": 7,
-  "jugadorA2": {"id": "Steve", "saludMaxima": 20, "x": 2, "y": 0, "z": 0},
+  "jugadorA2": {"id": "steve-m", "creeperId": "creeper-m", "radio": 5},
   "entidadA3": {"id": "objetivo-mateo-2"}
 }'
 ```
@@ -83,23 +85,22 @@ Orden de las consultas, en `EscenarioService`:
 
 1. **Reglas locales.** El Creeper existe, está vivo y no explotó (`404`, `409`). Si no puede
    explotar, no tiene sentido consultar a los compañeros.
-2. **A2.** Su consulta no cambia nada y su posición hace falta para calcular el daño del Creeper.
-3. **A3, al final.** Es la única llamada que modifica una base ajena: si el Creeper o A2
-   rechazan, a A3 no se lo llama.
+2. **A2.** Aplica su regla de daño a su jugador. Si rechaza, a A3 no se lo llama.
+3. **A3.** Aplica su regla de TNT a su entidad.
 4. **Guardar.** Con las dos aceptaciones, el Creeper queda con vida 0 y `yaExploto = true`
-   (regla 1), se calcula el daño al jugador con la regla 2 y se guarda la `Jugada`.
+   (regla 1) y se guarda la `Jugada` con el daño que calculó cada compañero.
 
 ```mermaid
 sequenceDiagram
     actor Cliente as Insomnia
     participant A1 as Mateo (A1, escenario)
-    participant A2 as Santiago (A2, jugador)
+    participant A2 as Santiago (A2, daño)
     participant A3 as Lucas (A3, TNT)
 
     Cliente->>A1: POST /jugadas
     A1->>A1: el Creeper puede explotar (reglas locales)
-    A1->>A2: GET /jugador
-    A2-->>A1: 200 jugador con salud y posición
+    A1->>A2: POST /simulacion/explosiones
+    A2-->>A1: 200 daño a su jugador
     A1->>A3: POST /api/entidades/{id}/explosiones
     A3-->>A1: 200 daño de la TNT
     A1->>A1: el Creeper explota y se guarda la Jugada
@@ -113,10 +114,10 @@ sequenceDiagram
 | A2 acepta y A3 rechaza | `422` con `"rechazadoPor": "A3 (Lucas Fadul)"` | Igual que antes: ninguna jugada nueva y el Creeper sigue vivo |
 | A2 o A3 no responde (5 s), falla con 5xx o devuelve algo incompleto | `502` con `"servicio"` (quién falló) | Igual que antes |
 
-**Lo que no se puede revertir.** Si A3 acepta y después falla el guardado local, la salud que
-A3 ya guardó no vuelve atrás, porque esta transacción no alcanza su base. Pasó una vez en las
-pruebas: una tabla `JUGADA` vieja en la base de desarrollo hizo fallar el `INSERT` después de
-que Lucas aceptó. Por eso A3 va último y las entidades de A3 que usa el escenario son de prueba.
+**Lo que no se puede revertir.** Las reglas de A2 y A3 guardan su resultado en sus propias
+bases, y esta transacción no las alcanza: si A2 acepta y A3 rechaza, la salud que guardó A2 no
+vuelve atrás. El enunciado solo exige que la base de A1 quede igual, y así queda. Por eso las
+entidades de A2 y A3 que usa el escenario son de prueba.
 
 ### Cómo arrancar los tres servicios
 
@@ -160,15 +161,18 @@ Los pedidos `40`–`53` de `insomnia/Minecraft.yaml` usan las variables `base_ur
 2. `43`: crear el Creeper del escenario (copiar el `id` a `p09_creeper_id`).
 3. `44`–`45`: preparar en A3 una entidad viva y otra con salud 0 en el origen. Si los ids
    `entidad_a3_id` o `entidad_a3_muerta` ya existen en la base de Lucas, elegir otros.
+   En A2, crear con su `POST /entidades` un creeper (`creeper-m`) y un jugador (`steve-m`, a
+   distancia 2 del origen).
 4. `46`–`47`: escenario feliz (`201`) y `GET` de la jugada guardada.
 5. `48`: crear el Creeper de los rechazos (copiar el `id` a `p09_creeper_rechazo_id`).
-6. `49`: rechazo de A2 (`saludMaxima: -1`) → `422`.
+6. `49`: rechazo de A2 (radio `0`, su regla de juego) → `422`.
 7. `50`: rechazo de A3 (entidad con salud 0) → `422`.
 8. `51`–`53`: `GET` que muestran que solo quedó la jugada feliz, que el Creeper de los
    rechazos sigue vivo y que el del escenario feliz explotó.
 
-En `insomnia/respuestas/` están las respuestas reales que dieron los servicios de Santiago y
-Lucas el 23 de noviembre (feliz, cada rechazo y los `GET` posteriores).
+En `insomnia/respuestas/` están las respuestas reales del 25 de noviembre, con los servicios de
+Santiago y Lucas arrancados desde sus commits de entrega (feliz, cada rechazo y los `GET`
+posteriores; `51` muestra también una jugada feliz anterior de la misma prueba).
 
 ### Si un compañero está apagado
 

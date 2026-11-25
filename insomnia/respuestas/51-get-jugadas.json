@@ -1,21 +1,35 @@
 {
-  "pedido": "GET 080/jugadas",
+  "pedido": "GET 096/jugadas",
   "cuerpo": null,
   "estado": 200,
   "respuesta": [
     {
-      "creeperId": 7,
-      "jugadorA2": "Steve",
+      "creeperId": 1,
+      "jugadorA2": "steve-2",
       "distanciaJugador": 2.0,
       "saludJugadorAntes": 20,
-      "danoCreeper": 10,
-      "saludJugadorDespues": 10,
-      "entidadA3": "objetivo-mateo-2",
+      "danoCreeper": 12,
+      "saludJugadorDespues": 8,
+      "entidadA3": "objetivo-2",
       "saludEntidadAntes": 20,
       "danoTnt": 8,
       "saludEntidadDespues": 12,
-      "registradaEn": "2026-11-24T00:16:11.321244Z",
+      "registradaEn": "2026-11-25T15:28:09.880710Z",
       "id": 1
+    },
+    {
+      "creeperId": 3,
+      "jugadorA2": "steve-m2",
+      "distanciaJugador": 2.0,
+      "saludJugadorAntes": 20,
+      "danoCreeper": 12,
+      "saludJugadorDespues": 8,
+      "entidadA3": "objetivo-mateo",
+      "saludEntidadAntes": 20,
+      "danoTnt": 8,
+      "saludEntidadDespues": 12,
+      "registradaEn": "2026-11-25T15:29:19.114364Z",
+      "id": 2
     }
   ]
 }

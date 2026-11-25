@@ -1001,7 +1001,7 @@ collection:
     method: POST
     body:
       mimeType: application/json
-      text: "{\"creeperId\":{{ _.p09_creeper_id }},\"jugadorA2\":{\"id\":\"Steve\",\"saludMaxima\":20,\"x\":2,\"y\":0,\"z\":0},\"entidadA3\":{\"id\":\"{{ _.entidad_a3_id }}\"}}"
+      text: "{\"creeperId\":{{ _.p09_creeper_id }},\"jugadorA2\":{\"id\":\"{{ _.jugador_a2_id }}\",\"creeperId\":\"{{ _.creeper_a2_id }}\",\"radio\":5},\"entidadA3\":{\"id\":\"{{ _.entidad_a3_id }}\"}}"
     headers:
       - name: Content-Type
         value: application/json
@@ -1056,18 +1056,18 @@ collection:
         store: true
       rebuildPath: true
   - url: "{{ _.base_url }}/jugadas"
-    name: "49 POO-09 Rechazo de A2 (saludMaxima -1) - 422 rechazadoPor A2"
+    name: "49 POO-09 Rechazo de A2 (radio 0) - 422 rechazadoPor A2"
     meta:
       id: req_1b439248523f4166b2746b7d9f46432a
       created: 1795900000010
       modified: 1795900000010
       isPrivate: false
-      description: "Santiago rechaza la salud máxima negativa con 400. A3 no se consulta y la base queda igual."
+      description: "La regla de juego de Santiago rechaza un radio no positivo con 422. A3 no se consulta y la base queda igual."
       sortKey: 49
     method: POST
     body:
       mimeType: application/json
-      text: "{\"creeperId\":{{ _.p09_creeper_rechazo_id }},\"jugadorA2\":{\"id\":\"Steve\",\"saludMaxima\":-1,\"x\":2,\"y\":0,\"z\":0},\"entidadA3\":{\"id\":\"{{ _.entidad_a3_id }}\"}}"
+      text: "{\"creeperId\":{{ _.p09_creeper_rechazo_id }},\"jugadorA2\":{\"id\":\"{{ _.jugador_a2_id }}\",\"creeperId\":\"{{ _.creeper_a2_id }}\",\"radio\":0},\"entidadA3\":{\"id\":\"{{ _.entidad_a3_id }}\"}}"
     headers:
       - name: Content-Type
         value: application/json
@@ -1091,7 +1091,7 @@ collection:
     method: POST
     body:
       mimeType: application/json
-      text: "{\"creeperId\":{{ _.p09_creeper_rechazo_id }},\"jugadorA2\":{\"id\":\"Steve\",\"saludMaxima\":20,\"x\":2,\"y\":0,\"z\":0},\"entidadA3\":{\"id\":\"{{ _.entidad_a3_muerta }}\"}}"
+      text: "{\"creeperId\":{{ _.p09_creeper_rechazo_id }},\"jugadorA2\":{\"id\":\"{{ _.jugador_a2_id }}\",\"creeperId\":\"{{ _.creeper_a2_id }}\",\"radio\":5},\"entidadA3\":{\"id\":\"{{ _.entidad_a3_muerta }}\"}}"
     headers:
       - name: Content-Type
         value: application/json
@@ -1157,6 +1157,54 @@ collection:
         send: true
         store: true
       rebuildPath: true
+  - url: "{{ _.a2_url }}/entidades"
+    name: "45a POO-09 Preparar en A2 un creeper - 201"
+    meta:
+      id: req_4d59cf7f2d954038b1711de998b8523a
+      created: 1796000000001
+      modified: 1796000000001
+      isPrivate: false
+      description: "Si el id ya existe en la base de Santiago, cambiar creeper_a2_id."
+      sortKey: 45.1
+    method: POST
+    body:
+      mimeType: application/json
+      text: "{\"tipo\":\"creeper\",\"id\":\"{{ _.creeper_a2_id }}\",\"salud\":20,\"saludMaxima\":20,\"x\":0,\"y\":0,\"z\":0}"
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.a2_url }}/entidades"
+    name: "45b POO-09 Preparar en A2 un jugador a distancia 2 - 201"
+    meta:
+      id: req_fb5dfb03150848f98c9ad600957c026e
+      created: 1796000000002
+      modified: 1796000000002
+      isPrivate: false
+      description: "Si el id ya existe en la base de Santiago, cambiar jugador_a2_id."
+      sortKey: 45.2
+    method: POST
+    body:
+      mimeType: application/json
+      text: "{\"tipo\":\"jugador\",\"id\":\"{{ _.jugador_a2_id }}\",\"salud\":20,\"saludMaxima\":20,\"experiencia\":0,\"x\":2,\"y\":0,\"z\":0}"
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
 cookieJar:
   name: Default Jar
   meta:
@@ -1183,3 +1231,5 @@ environments:
     jugada_id: 1
     entidad_a3_id: objetivo-mateo-2
     entidad_a3_muerta: rechazo-mateo
+    creeper_a2_id: creeper-m
+    jugador_a2_id: steve-m
